@@ -3,7 +3,8 @@
  *
  * A home-grown testing framework that will create a DOM report (if so desired).
  *
- * @requires Test (./supportClasses/Test.js)
+ * @requires Test (./scripts/Test.js)
+ * @requires jQuery (/utilities/HeaderUtilities.include.jQuery())
  */
 var TestMethodAPI = (function () {
 	function _TestMethodAPI() {}
@@ -29,10 +30,10 @@ var TestMethodAPI = (function () {
 		 * "Want a report?"
 		 * Prints out a report of each test on TestMethodAPI.endTest().
 		 *
-		 * @param state {boolean?} - True to enable the report, False to disable the report
+		 * @param state {boolean?} - Optional. True to enable the report, False to disable the report. Defaults to True.
 		 */
 		printToDOM : function (state) {
-			if (state == null)
+			if (state == null) state = true;
 			this._printDOM = state;
 		},
 
@@ -73,7 +74,7 @@ var TestMethodAPI = (function () {
 			}
 
 			if (this._printDOM) {
-				this._currentTest.print();
+				this._currentTest.print(this._getPrintoutContainer());
 			}
 
 			this._currentTest = null;
@@ -199,10 +200,26 @@ var TestMethodAPI = (function () {
 		_consoleWarnCount : 0,
 		_consoleErrorCount : 0,
 		_printDOM : false,
+		_printoutContainer : null,
 
 		/* ----- Private Methods ----- */
 		_validateActiveTest : function () {
 			if (this._currentTest == null) throw new Error("No Active Test! >> Call 'TestMethodAPI.startTest(...)' first");
+		},
+		_getPrintoutContainer : function () {
+			if (this._printoutContainer != null) return this._printoutContainer;
+
+			var printoutContainerId = 'testMethodAPI_printoutContainer';
+
+			// Make sure we have jQuery library included
+			HeaderUtilities.include.jQuery();
+			this._printoutContainer = $(printoutContainerId);
+			if (this._printoutContainer.length == 0) {
+				this._printoutContainer = $('<div id="' + printoutContainerId + '"></div>');
+				$(document.body).append(this._printoutContainer);
+			}
+
+			return this._printoutContainer;
 		}
 	};
 

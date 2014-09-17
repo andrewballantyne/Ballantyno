@@ -62,8 +62,8 @@ var HeaderUtilities = {
 			element.type = 'text/javascript';
 			element.src = url;
 
-			// Append to the header
-			document.getElementsByTagName('head')[0].appendChild(element);
+			// Append to the header (just after the title tag)
+			document.getElementsByTagName('head')[0].insertBefore(element, document.getElementsByTagName('title')[0].nextSibling);
 
 			HeaderUtilities.include._alreadyIncluded.push(url);
 		},
@@ -83,8 +83,8 @@ var HeaderUtilities = {
 			element.rel = 'stylesheet';
 			element.href = url;
 
-			// Append to the header
-			document.getElementsByTagName('head')[0].appendChild(element);
+			// Append to the header (just after the title tag)
+			document.getElementsByTagName('head')[0].insertBefore(element, document.getElementsByTagName('title')[0].nextSibling);
 
 			HeaderUtilities.include._alreadyIncluded.push(url);
 		},
