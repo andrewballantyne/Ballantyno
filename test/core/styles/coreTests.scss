@@ -2,14 +2,27 @@
 
 /* Colors */
 $casingColor : black;
-$goodColor : green;
+$goodColor : darkgreen;
+$goodBGColor : lightgreen;
 $badColor : red;
+$badBGColor : #faa;
 
 /* Sizes */
 $genericBorderRadius : 5px;
 
 
+.groupTestContainer {
+  border-bottom: 1px solid $casingColor;
+  padding-top: 10px;
+}
 
+.groupTestContainer .groupTestTitle {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
 
 .testContainer {
   background-color: #444;
@@ -23,10 +36,22 @@ $genericBorderRadius : 5px;
 .testContainer .header {
   font-weight: bold;
   margin: 0;
-  text-decoration: underline;
+  overflow: hidden;
   white-space: nowrap;
 }
 
-.test {
+.testContainer .assert {
+  border-radius: $genericBorderRadius;
+  margin: 5px;
+  padding: 5px;
+}
 
+.testContainer .successfulTest {
+  background-color: $goodBGColor;
+  color: $goodColor;
+}
+
+.testContainer .unsuccessfulTest {
+  background-color: $badBGColor;
+  color: $badColor;
 }

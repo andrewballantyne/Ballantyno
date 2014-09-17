@@ -25,9 +25,7 @@ var TestMethodAPI = (function () {
 			this._currentTest = null;
 			this._tests = {};
 
-			this._consoleLogCount = 0;
-			this._consoleWarnCount = 0;
-			this._consoleErrorCount = 0;
+			this._clearForTestStart();
 		},
 
 		/**
@@ -64,6 +62,8 @@ var TestMethodAPI = (function () {
 			this._tests[testNumber] = new Test(testNumber, testTitle);
 
 			this._currentTest = this._tests[testNumber];
+
+			this._clearForTestStart();
 		},
 
 		/**
@@ -185,6 +185,9 @@ var TestMethodAPI = (function () {
 		log : function (msg) {
 			this._validateActiveTest();
 			this._currentTest.addLogHistory(msg);
+
+			if (this._actuallyConsolePrint)
+				console.log('log :: ' + msg);
 		},
 		/**
 		 * A similar call to console.warn, but for the TestMethodAPI to track.
@@ -194,6 +197,9 @@ var TestMethodAPI = (function () {
 		warn : function (msg) {
 			this._validateActiveTest();
 			this._currentTest.addWarnHistory(msg);
+
+			if (this._actuallyConsolePrint)
+				console.log('warn :: ' + msg);
 		},
 		/**
 		 * A similar call to console.error, but for the TestMethodAPI to track.
@@ -203,6 +209,9 @@ var TestMethodAPI = (function () {
 		error : function (msg) {
 			this._validateActiveTest();
 			this._currentTest.addErrorHistory(msg);
+
+			if (this._actuallyConsolePrint)
+				console.log('error :: ' + msg);
 		},
 
 		/* ----- Private Constants ----- */
@@ -219,6 +228,8 @@ var TestMethodAPI = (function () {
 		_printDOM : false,
 		_printoutContainer : null,
 
+		_actuallyConsolePrint : false,
+
 		/* ----- Private Methods ----- */
 		_validateActiveTest : function () {
 			if (this._currentTest == null) throw new Error("No Active Test! >> Call 'TestMethodAPI.startTest(...)' first");
@@ -227,15 +238,30 @@ var TestMethodAPI = (function () {
 			if (this._printoutContainer != null && this._printoutContainer.prop('id') == this._currentTestGroupId)
 				return this._printoutContainer;
 
-			// Make sure we have jQuery library included
+			// Try to get the DOM object
 			this._printoutContainer = $(this._currentTestGroupId);
+
+			// Check to see if we actually have a DOM object
 			if (this._printoutContainer.length == 0) {
+				// Since we do not, we need to create one
 				this._printoutContainer = $('<div />');
 				this._printoutContainer.prop('id', this._currentTestGroupId);
+				this._printoutContainer.addClass('groupTestContainer');
 				$(document.body).append(this._printoutContainer);
+
+				// Add it's title
+				var title = $('<p />');
+				title.addClass('groupTestTitle');
+				title.text(this._currentTestGroupName);
+				this._printoutContainer.append(title);
 			}
 
 			return this._printoutContainer;
+		},
+		_clearForTestStart : function () {
+			this._consoleLogCount = 0;
+			this._consoleWarnCount = 0;
+			this._consoleErrorCount = 0;
 		}
 	};
 

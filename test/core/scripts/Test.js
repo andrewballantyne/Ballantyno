@@ -51,9 +51,9 @@ var Test = (function () {
 		 */
 		addAssert : function (isSuccessful, success, fail, prefix) {
 			if (isSuccessful)
-				this._asserts["successes"].push(((prefix != null) ? "(" + prefix + ")" : "") + success);
+				this._asserts["successes"].push(((prefix != null) ? "(" + prefix + " successful): " : "") + success);
 			else
-				this._asserts["fails"].push(((prefix != null) ? "(" + prefix + ")" : "") + fail);
+				this._asserts["fails"].push(((prefix != null) ? "(" + prefix + " unsuccessful): " : "") + fail);
 		},
 
 		/**
@@ -64,7 +64,7 @@ var Test = (function () {
 		 * @param logMsg {string|*} - The result of the log to match (does an absolute equal, ===)
 		 */
 		assertLogAt : function (logIndex, logMsg) {
-			this.addAssert(this.consolePrints.logs[logIndex] === logMsg, logMsg, logMsg, "console.log");
+			this.addAssert(this.consolePrints.logs[logIndex] === logMsg, logMsg, logMsg, "log");
 		},
 		/**
 		 * Assert for this desired warning (at the warn index).
@@ -74,7 +74,7 @@ var Test = (function () {
 		 * @param warnMsg {string|*} - The result of the warn to match (does an absolute equal, ===)
 		 */
 		assertWarnAt : function (warnIndex, warnMsg) {
-			this.addAssert(this.consolePrints.warns[warnIndex] === warnMsg, warnMsg, warnMsg, "console.warn");
+			this.addAssert(this.consolePrints.warns[warnIndex] === warnMsg, warnMsg, warnMsg, "warn");
 		},
 		/**
 		 * Assert for this desired error (at the error index).
@@ -84,14 +84,14 @@ var Test = (function () {
 		 * @param errorMsg {string|*} - The result of the error to match (does an absolute equal, ===)
 		 */
 		assertErrorAt : function (errorIndex, errorMsg) {
-			this.addAssert(this.consolePrints.errors[errorIndex] === errorIndex, errorMsg, errorMsg, "console.error");
+			this.addAssert(this.consolePrints.errors[errorIndex] === errorIndex, errorMsg, errorMsg, "error");
 		},
 
 		/**
 		 * Prints out the test to the DOM.
 		 * TODO: Implement
 		 *
-		 * @param printoutContainer {jQuery} - The target of all printouts
+		 * @param printoutContainer {jQuery} - The to-be parent for this tests' printouts
 		 */
 		print : function (printoutContainer) {
 			HeaderUtilities.include.jQuery();
@@ -107,8 +107,22 @@ var Test = (function () {
 			header.text(this._testTitle);
 			thisContainer.append(header);
 
-			// Add the tests
-			// TODO: add them!
+			// Add the successful tests
+			var i;
+			for (i = 0; i < this._asserts.successes.length; i++) {
+				var successfulTest = $('<div />');
+				successfulTest.addClass('assert successfulTest');
+				successfulTest.text(this._asserts.successes[i]);
+				thisContainer.append(successfulTest);
+			}
+
+			// Add the unsuccessful tests
+			for (i = 0; i < this._asserts.fails.length; i++) {
+				var unsuccessfulTest = $('<div />');
+				unsuccessfulTest.addClass('assert unsuccessfulTest');
+				unsuccessfulTest.text(this._asserts.fails[i]);
+				thisContainer.append(unsuccessfulTest);
+			}
 
 			// Add it to the parent 'printout' container
 			printoutContainer.append(thisContainer);
