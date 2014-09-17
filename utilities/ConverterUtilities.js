@@ -5,6 +5,7 @@
  *
  * Features:
  *  - eval() support functions
+ *  - strip support (removal of spaces and any other characters)
  */
 var ConverterUtilities = {
 	/**
@@ -32,6 +33,21 @@ var ConverterUtilities = {
 			}
 
 			return convertedItem;
+		}
+	},
+
+	strip : {
+		/**
+		 * Strips a provided string for being used as an ID.
+		 *
+		 * @param string - The passed string, stripped of any unwanted 'id characters'
+		 */
+		forDOMId : function (string) {
+			return ConverterUtilities.strip.spaces(string);
+		},
+
+		spaces : function (string) {
+			return string.replace(/ /g, "");
 		}
 	}
 };

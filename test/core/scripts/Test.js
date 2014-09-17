@@ -96,8 +96,21 @@ var Test = (function () {
 		print : function (printoutContainer) {
 			HeaderUtilities.include.jQuery();
 
-			var thisContainer = $('<div id="TestMethodAPI_test' + this._testNumber + '">' + this._testTitle + '</div>');
+			// Create this test container
+			var thisContainer = $('<div />');
+			thisContainer.prop('id', 'TestMethodAPI_test' + this._testNumber);
+			thisContainer.addClass('testContainer');
 
+			// Add the header
+			var header = $('<p />');
+			header.addClass('header');
+			header.text(this._testTitle);
+			thisContainer.append(header);
+
+			// Add the tests
+			// TODO: add them!
+
+			// Add it to the parent 'printout' container
 			printoutContainer.append(thisContainer);
 		},
 

@@ -9,8 +9,7 @@
  *  - Extending classes
  *  - Overriding and calling of 'super' (both constructor and any method for it's overridden functionality)
  *
- * @requires ConverterUtilities
- * @requires TypeUtilities
+ * @requires ConverterUtilities (/utilities/ConverterUtilities.js)
  */
 var ClassVehicle = (function () {
 	function _ClassVehicle() {}
@@ -56,21 +55,6 @@ var ClassVehicle = (function () {
 			this._addNewProperties(Class, newProps);
 
 			return Class;
-		},
-
-		/**
-		 * Make a set of params mandatory (cannot be undefined/not passed).
-		 *
-		 * Note: This will throw a JavaScript Error. Designed to prevent coding without using all params.
-		 *
-		 * @params (*) - Any number of parameters to validate they are set to something (ie not undefined)
-		 */
-		makeMandatory : function () {
-			for (var i = 0; i < arguments.length; i++) {
-				if (TypeUtilities.is.equal(arguments[i], TypeUtilities.is.EQUAL_TO_NOT_SET)) {
-					throw new Error("Not Defined Parameter. Passed param " + (i+1) + " = " + arguments[i]);
-				}
-			}
 		},
 
 		/* ----- Private Variables ----- */

@@ -1,0 +1,16 @@
+/** External use class; not to be used within a css class, but instead creates "one". **/
+/* Colors */
+/* Sizes */
+.testContainer {
+  background-color: #444;
+  border: 1px solid black;
+  border-radius: 5px;
+  color: white;
+  margin: 10px;
+  padding: 5px; }
+
+.testContainer .header {
+  font-weight: bold;
+  margin: 0;
+  text-decoration: underline;
+  white-space: nowrap; }

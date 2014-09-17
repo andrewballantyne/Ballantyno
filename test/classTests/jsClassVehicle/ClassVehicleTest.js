@@ -8,6 +8,10 @@
  *  - Overridden Method Call works
  *  - Overridden Method Call USING Inherited Variables works
  *  - Mandatory Params works
+ *
+ * @requires TestMethodAPI (/test/core/TestMethodAPI.js)
+ * @requires ClassVehicle (/core/ClassVehicle.js)
+ * @requires TypeUtilities (/utilities/TypeUtilities.js)
  */
 /**
  * Base Class. Abstract.
@@ -21,7 +25,7 @@ var Vehicle = ClassVehicle.createClass(true, {
 		TestMethodAPI.log("Vehicle Constructor");
 	},
 	drive : function(km) {
-		ClassVehicle.makeMandatory(km);
+		TypeUtilities.valid.makeMandatory(km);
 		TestMethodAPI.log("Driving " + km + "km");
 	},
 	useHorn : function() {
@@ -56,7 +60,7 @@ var DodgeSedan = ClassVehicle.extendClass(Sedan, {
 	model : "Undefined_Dodge_Model",
 
 	constructor : function(model) {
-		ClassVehicle.makeMandatory(model, null, null);
+		TypeUtilities.valid.makeMandatory(model, null, null);
 		this.super.constructor();
 		TestMethodAPI.log("DodgeSedan Constructor");
 
@@ -79,7 +83,7 @@ var DodgeSedan = ClassVehicle.extendClass(Sedan, {
 });
 
 /* Lets get some tests going! */
-TestMethodAPI.fresh();
+TestMethodAPI.fresh('ClassVehicle Tests');
 TestMethodAPI.printToDOM();
 
 TestMethodAPI.startTest(1, "Abstract Class Instantiation");

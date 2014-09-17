@@ -1,0 +1,32 @@
+@import '../../../constants/scss/classes.scss';
+
+/* Colors */
+$casingColor : black;
+$goodColor : green;
+$badColor : red;
+
+/* Sizes */
+$genericBorderRadius : 5px;
+
+
+
+
+.testContainer {
+  background-color: #444;
+  border: 1px solid $casingColor;
+  border-radius: $genericBorderRadius;
+  color: white;
+  margin: 10px;
+  padding: 5px;
+}
+
+.testContainer .header {
+  font-weight: bold;
+  margin: 0;
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
+.test {
+
+}

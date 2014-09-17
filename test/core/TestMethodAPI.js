@@ -16,8 +16,12 @@ var TestMethodAPI = (function () {
 		 * Start Fresh, wipe all the current tests that are stored.
 		 *
 		 * Note: Doesn't clear the printToDOM setting.
+		 *
+		 * @param groupName - The name of the group of tests that are about to be run
 		 */
-		fresh : function () {
+		fresh : function (groupName) {
+			this._currentTestGroupName = groupName;
+			this._currentTestGroupId = ConverterUtilities.strip.forDOMId(this._currentTestGroupName);
 			this._currentTest = null;
 			this._tests = {};
 
@@ -33,8 +37,16 @@ var TestMethodAPI = (function () {
 		 * @param state {boolean?} - Optional. True to enable the report, False to disable the report. Defaults to True.
 		 */
 		printToDOM : function (state) {
-			if (state == null) state = true;
+			state = TypeUtilities.valid.defaultTo(state, true);
+
+			if (this._printDOM === state) return;
+
 			this._printDOM = state;
+
+			if (this._printDOM) {
+				// If we are going to print to the DOM, we need the styles
+				HeaderUtilities.include.style(this._CORE_TEST_CSS);
+			}
 		},
 
 		/**
@@ -193,7 +205,12 @@ var TestMethodAPI = (function () {
 			this._currentTest.addErrorHistory(msg);
 		},
 
+		/* ----- Private Constants ----- */
+		_CORE_TEST_CSS : 'test/core/styles/coreTests.css',
+
 		/* ----- Private Variables ----- */
+		_currentTestGroupName : '',
+		_currentTestGroupId : '',
 		_currentTest : null,
 		_tests : {},
 		_consoleLogCount : 0,
@@ -207,15 +224,14 @@ var TestMethodAPI = (function () {
 			if (this._currentTest == null) throw new Error("No Active Test! >> Call 'TestMethodAPI.startTest(...)' first");
 		},
 		_getPrintoutContainer : function () {
-			if (this._printoutContainer != null) return this._printoutContainer;
-
-			var printoutContainerId = 'testMethodAPI_printoutContainer';
+			if (this._printoutContainer != null && this._printoutContainer.prop('id') == this._currentTestGroupId)
+				return this._printoutContainer;
 
 			// Make sure we have jQuery library included
-			HeaderUtilities.include.jQuery();
-			this._printoutContainer = $(printoutContainerId);
+			this._printoutContainer = $(this._currentTestGroupId);
 			if (this._printoutContainer.length == 0) {
-				this._printoutContainer = $('<div id="' + printoutContainerId + '"></div>');
+				this._printoutContainer = $('<div />');
+				this._printoutContainer.prop('id', this._currentTestGroupId);
 				$(document.body).append(this._printoutContainer);
 			}
 
