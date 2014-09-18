@@ -1,43 +1,56 @@
-@mixin linearGradient ( $start, $end ) {
-  background: -webkit-linear-gradient($start, $end); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient($start, $end); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient($start, $end); /* For Firefox 3.6 to 15 */
-  background: linear-gradient($start, $end); /* Standard syntax (must be last) */
+/** Prefixes
+-webkit-  // Safari
+-o-       // Opera
+-moz-     // Firefox
+          // Standard (no prefix) -- Must be put last
+ **/
+
+@mixin linearGradient($start, $end) {
+  background: -webkit-linear-gradient($start, $end);
+  background: -o-linear-gradient($start, $end);
+  background: -moz-linear-gradient($start, $end);
+  background: linear-gradient($start, $end); 
+}
+@mixin linearGradient_ltr($start, $end) { // left to right
+  background: -webkit-linear-gradient(left, $start, $end);
+  background: -o-linear-gradient(right, $start, $end);
+  background: -moz-linear-gradient(right, $start, $end);
+  background: linear-gradient(to right, $start, $end);
+}
+@mixin linearGradient_bar($start, $middle, $end) {
+  background: -webkit-linear-gradient($start, $middle, $end);
+  background: -o-linear-gradient($start, $middle, $end);
+  background: -moz-linear-gradient($start, $middle, $end);
+  background: linear-gradient($start, $middle, $end); 
+}
+@mixin radialGradient($start, $end) {
+  background: -webkit-radial-gradient($start 10%, $end 60%);
+  background: -o-radial-gradient($start 10%, $end 60%);
+  background: -moz-radial-gradient($start 10%, $end 60%);
+  background: radial-gradient($start 10%, $end 60%);
 }
 
-@mixin linearGradient_ltr ( $start, $end ) {
-  background: -webkit-linear-gradient(left, $start, $end); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(right, $start, $end); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(right, $start, $end); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(to right, $start, $end); /* Standard syntax (must be last) */
-}
-
-@mixin linearGradient_bar ( $start, $middle, $end ) {
-  background: -webkit-linear-gradient($start, $middle, $end); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient($start, $middle, $end); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient($start, $middle, $end); /* For Firefox 3.6 to 15 */
-  background: linear-gradient($start, $middle, $end); /* Standard syntax (must be last) */
-}
-
-@mixin radialGradient ( $start, $end ) {
-  background: -webkit-radial-gradient($start 10%, $end 60%); /* Safari 5.1 to 6.0 */
-  background: -o-radial-gradient($start 10%, $end 60%); /* For Opera 11.6 to 12.0 */
-  background: -moz-radial-gradient($start 10%, $end 60%); /* For Firefox 3.6 to 15 */
-  background: radial-gradient($start 10%, $end 60%); /* Standard syntax */
+@mixin disableSelection() {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 /** External use class; not to be used within a css class, but instead creates "one". **/
 @mixin placeholderColor ( $color ) {
-  ::-webkit-input-placeholder { /* WebKit browsers */
+  ::-webkit-input-placeholder { 
     color: $color;
   }
-  :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  :-moz-placeholder {
     color: $color;
   }
-  ::-moz-placeholder { /* Mozilla Firefox 19+ */
+  ::-moz-placeholder {
     color: $color;
   }
-  :-ms-input-placeholder { /* Internet Explorer 10+ */
+  :-ms-input-placeholder {
     color: $color;
   }
 }

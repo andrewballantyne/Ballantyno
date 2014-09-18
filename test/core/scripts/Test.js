@@ -91,7 +91,6 @@ var Test = (function () {
 
 		/**
 		 * Prints out the test to the DOM.
-		 * TODO: Implement
 		 *
 		 * @param printoutContainer {jQuery} - The to-be parent for this tests' printouts
 		 */
@@ -103,27 +102,55 @@ var Test = (function () {
 			thisContainer.prop('id', 'TestMethodAPI_test' + this._testNumber);
 			thisContainer.addClass('testContainer');
 
+			// Add the test results container
+			var testResults = $('<div />');
+			testResults.addClass('testResults');
+			testResults.hide();
+
 			// Add the header
 			var header = $('<p />');
 			header.addClass('header');
 			header.text(this._testTitle);
+			header.on('click', function () {
+				if (testResults.is(':visible'))
+					testResults.hide();
+				else
+					testResults.show();
+			});
+
+			// Add brief stats
+			var briefStats = $('<div />');
+			briefStats.addClass('testStats_brief');
+			header.prepend(briefStats);
+
+			// Important order of appending
 			thisContainer.append(header);
+			thisContainer.append(testResults);
 
 			// Add the successful tests
-			var i;
-			for (i = 0; i < this._asserts.successes.length; i++) {
+			var successful = 0;
+			for (; successful < this._asserts.successes.length; successful++) {
 				var successfulTest = $('<div />');
 				successfulTest.addClass('assert successfulTest');
-				successfulTest.text(this._asserts.successes[i]);
-				thisContainer.append(successfulTest);
+				successfulTest.text(this._asserts.successes[successful]);
+				testResults.append(successfulTest);
 			}
 
 			// Add the unsuccessful tests
-			for (i = 0; i < this._asserts.fails.length; i++) {
+			var unsuccessful = 0;
+			for (; unsuccessful < this._asserts.fails.length; unsuccessful++) {
 				var unsuccessfulTest = $('<div />');
 				unsuccessfulTest.addClass('assert unsuccessfulTest');
-				unsuccessfulTest.text(this._asserts.fails[i]);
-				thisContainer.append(unsuccessfulTest);
+				unsuccessfulTest.text(this._asserts.fails[unsuccessful]);
+				testResults.append(unsuccessfulTest);
+			}
+
+			if (unsuccessful > 0) {
+				briefStats.text(unsuccessful + ' Failure' + ((unsuccessful > 1) ? 's' : ''));
+				briefStats.addClass('fail');
+			} else {
+				briefStats.text(successful + ' Pass' + ((successful > 1) ? 'es' : ''));
+				briefStats.addClass('pass');
 			}
 
 			// Add it to the parent 'printout' container

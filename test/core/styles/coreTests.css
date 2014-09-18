@@ -1,6 +1,13 @@
+/** Prefixes
+-webkit-  // Safari
+-o-       // Opera
+-moz-     // Firefox
+          // Standard (no prefix) -- Must be put last
+ **/
 /** External use class; not to be used within a css class, but instead creates "one". **/
 /* Colors */
 /* Sizes */
+/* Z-Indexes */
 .groupTestContainer {
   border-bottom: 1px solid black;
   padding-top: 10px; }
@@ -21,10 +28,33 @@
   padding: 5px; }
 
 .testContainer .header {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   font-weight: bold;
+  cursor: pointer;
   margin: 0;
   overflow: hidden;
-  white-space: nowrap; }
+  white-space: nowrap;
+  z-index: 1; }
+
+.testContainer .header .testStats_brief {
+  border-radius: 10px;
+  color: black;
+  display: inline-block;
+  padding: 2px 10px;
+  margin: 0 5px 0 0;
+  text-align: center;
+  z-index: 2; }
+
+.testContainer .header .testStats_brief.pass {
+  background-color: lightgreen; }
+
+.testContainer .header .testStats_brief.fail {
+  background-color: #ffaaaa; }
 
 .testContainer .assert {
   border-radius: 5px;
