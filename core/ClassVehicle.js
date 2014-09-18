@@ -66,6 +66,8 @@ var ClassVehicle = (function () {
 				this.constructor(constructorProperties);
 			}
 
+			Class.prototype.super = null;
+
 			return Class;
 		},
 		_addExtendedClass : function (CurrentClass, ExtendedClass) {
@@ -73,7 +75,7 @@ var ClassVehicle = (function () {
 				if (!ExtendedClass.prototype.hasOwnProperty(extendedProperty)) continue;
 				if (extendedProperty === "super") continue; // ignore super properties
 
-				var value = ConverterUtilities.eval.string(ExtendedClass.prototype[extendedProperty]);
+				var value = ConverterUtilities.eval.thisItem(ExtendedClass.prototype[extendedProperty]);
 				eval("CurrentClass.prototype." + extendedProperty + " = " + value);
 			}
 
@@ -81,12 +83,28 @@ var ClassVehicle = (function () {
 			CurrentClass.prototype.super = ExtendedClass.prototype;
 		},
 		_addNewProperties : function (CurrentClass, properties) {
+			var iHaveConstructor = false;
 			// Copy current properties
 			for (var property in properties) {
 				if (!properties.hasOwnProperty(property)) continue;
 
-				var value = ConverterUtilities.eval.string(properties[property]);
+				var value = ConverterUtilities.eval.thisItem(properties[property]);
+				if (property == 'constructor') iHaveConstructor = true;
 				eval("CurrentClass.prototype." + property + " = " +  value);
+			}
+
+			if (!iHaveConstructor) {
+				// We were not give a defined constructor, let's add a stock constructor
+				if (CurrentClass.prototype.super != null) {
+					CurrentClass.prototype.constructor = function (constructorProperties) {
+						/* Yes Parent Stock Constructor */
+						this.super.constructor(constructorProperties); // call parent
+					};
+				} else {
+					CurrentClass.prototype.constructor = function (constructorProperties) {
+						/* No Parent Stock Constructor */
+					};
+				}
 			}
 		}
 	};

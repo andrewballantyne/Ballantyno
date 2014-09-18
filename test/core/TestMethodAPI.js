@@ -107,13 +107,25 @@ var TestMethodAPI = (function () {
 		 */
 		assertAbstract : function (Class, success, fail) {
 			this._validateActiveTest();
-			var testingAbstract = null;
-			try {
-				// Abstract classes throw an error, we need to catch this so we can continue to test
-				testingAbstract = new Class();
-			} catch (e) {}
 
-			this.assertOnTest(testingAbstract, null, success, fail);
+			// Do not expect it to be created
+			this._performNew(Class, false, success, fail);
+		},
+
+		/**
+		 * Asserts that a class is creatable without an error being thrown.
+		 *
+		 * Note: startTest(...) must be called before this method (and after the last endTest(...)).
+		 *
+		 * @param Class {Function|*} - The intended abstract class to test
+		 * @param success {string} - The success string to print out for this assert
+		 * @param fail {string} - The failure string to print out for this assert
+		 */
+		assertInstantiation : function (Class, success, fail) {
+			this._validateActiveTest();
+
+			// Expect it to be created
+			this._performNew(Class, true, success, fail);
 		},
 
 		/**
@@ -237,6 +249,16 @@ var TestMethodAPI = (function () {
 		/* ----- Private Methods ----- */
 		_validateActiveTest : function () {
 			if (this._currentTest == null) throw new Error("No Active Test! >> Call 'TestMethodAPI.startTest(...)' first");
+		},
+		_performNew : function (Class, isCreated, success, fail) {
+			var classObj = null;
+			try {
+				classObj = new Class();
+			} catch (e) {}
+
+			// Check to see if the object status meets our expectations (isCreated == true means we wanted this to not be null)
+			var result = (isCreated) ? classObj != null : classObj == null;
+			this._currentTest.addAssert(result, success, fail);
 		},
 		_getPrintoutContainer : function () {
 			if (this._printoutContainer != null && this._printoutContainer.prop('id') == this._currentTestGroupId)
