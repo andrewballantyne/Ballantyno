@@ -72,18 +72,22 @@ var TestMethodAPI = (function () {
 		endTest : function () {
 			this._validateActiveTest();
 
-			if (this._currentTest.consolePrints.logs.length != this._consoleLogCount) {
-				// Some Logs left
-				console.warn("Logs Left! (" + (this._currentTest.consolePrints.logs.length - this._consoleLogCount) + ")");
-			}
-			if (this._currentTest.consolePrints.warns.length != this._consoleWarnCount) {
-				// Some Warns left
-				console.warn("Warns Left! (" + (this._currentTest.consolePrints.warns.length - this._consoleWarnCount) + ")");
-			}
-			if (this._currentTest.consolePrints.errors.length != this._consoleErrorCount) {
-				// Some Errors left
-				console.warn("Errors Left! (" + (this._currentTest.consolePrints.errors.length - this._consoleErrorCount) + ")");
-			}
+			// Add asserts if we still have logs unaccounted for
+			this._currentTest.addAssert(
+				this._currentTest.consolePrints.logs.length == this._consoleLogCount,
+				undefined, // nothing to report if it's successful
+				"Logs Difference: (" + (this._currentTest.consolePrints.logs.length - this._consoleLogCount) + ")"
+			);
+			this._currentTest.addAssert(
+				this._currentTest.consolePrints.warns.length == this._consoleWarnCount,
+				undefined, // nothing to report if it's successful
+				"Warns Difference: (" + (this._currentTest.consolePrints.warns.length - this._consoleWarnCount) + ")"
+			);
+			this._currentTest.addAssert(
+				this._currentTest.consolePrints.errors.length == this._consoleErrorCount,
+				undefined, // nothing to report if it's successful
+				"Errors Difference: (" + (this._currentTest.consolePrints.errors.length - this._consoleErrorCount) + ")"
+			);
 
 			if (this._printDOM) {
 				this._currentTest.print(this._getPrintoutContainer());

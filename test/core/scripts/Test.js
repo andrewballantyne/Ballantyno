@@ -44,15 +44,17 @@ var Test = (function () {
 		/**
 		 * Adds an assert to the test.
 		 *
+		 * Note: Does not have to have a success AND fail, but if it has neither it will do nothing.
+		 *
 		 * @param isSuccessful {boolean} - Was the desired assert successful?
-		 * @param success {string} - The success string to print out for this assert
-		 * @param fail {string} - The failure string to print out for this assert
+		 * @param success {string?} - Optional. The success string to print out for this assert (set to undefined to ignore)
+		 * @param fail {string?} - Optional. The failure string to print out for this assert (set to undefined to ignore)
 		 * @param prefix {string?} - Optional. Any prefix to appear before the individual assert result data
 		 */
 		addAssert : function (isSuccessful, success, fail, prefix) {
-			if (isSuccessful)
+			if (isSuccessful && TypeUtilities.is.defined(success))
 				this._asserts["successes"].push(((prefix != null) ? "(" + prefix + " successful): " : "") + success);
-			else
+			else if (!isSuccessful && TypeUtilities.is.defined(fail))
 				this._asserts["fails"].push(((prefix != null) ? "(" + prefix + " unsuccessful): " : "") + fail);
 		},
 
