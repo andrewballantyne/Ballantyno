@@ -146,7 +146,7 @@ var ExtendYesBaseNoConstructor = ClassVehicle.extendClass(BaseNoConstructor, {
 });
 
 /* ------------ Series 1 Tests - Lets get some tests going! ------------ */
-TestMethodAPI.fresh('ClassVehicle Tests (Ideal Information)');
+TestMethodAPI.startFreshGroup('ClassVehicle Tests (Ideal Information)');
 TestMethodAPI.printToDOM();
 
 TestMethodAPI.startTest(1, "Abstract Class Instantiation");
@@ -174,10 +174,11 @@ dodgeAvenger.printDetails();
 TestMethodAPI.assertConsoleLogs("Dodge Avenger - Type Sedan");
 TestMethodAPI.endTest();
 
+TestMethodAPI.endGroup();
 
 
 /* ------------ Series 2 Tests - Testing Loose Creations ------------ */
-TestMethodAPI.fresh('ClassVehicle Tests (Loose Constructor Implementations)');
+TestMethodAPI.startFreshGroup('ClassVehicle Tests (Loose Constructor Implementations)');
 TestMethodAPI.printToDOM();
 
 TestMethodAPI.startTest(1, "Create 'No Base Constructor' Class");
@@ -231,3 +232,5 @@ TestMethodAPI.assertInstantiation(
 	"Error Creating Class - Constructor Problems"
 );
 TestMethodAPI.endTest();
+
+TestMethodAPI.endGroup();

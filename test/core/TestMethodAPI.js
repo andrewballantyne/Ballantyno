@@ -19,13 +19,24 @@ var TestMethodAPI = (function () {
 		 *
 		 * @param groupName - The name of the group of tests that are about to be run
 		 */
-		fresh : function (groupName) {
+		startFreshGroup : function (groupName) {
 			this._currentTestGroupName = groupName;
 			this._currentTestGroupId = ConverterUtilities.strip.forDOMId(this._currentTestGroupName);
 			this._currentTest = null;
 			this._tests = {};
 
+			this._groupTs = Date.now();
+
 			this._clearForTestStart();
+		},
+
+		/**
+		 * Ends the current group. Will clean up some of itself. Prints a timestamp for the entire group.
+		 */
+		endGroup : function () {
+			var duration = Date.now() - this._groupTs;
+
+			this._getPrintoutContainer().find('.groupTimeStamp').text('Group Duration: ' + duration + 'ms');
 		},
 
 		/**
@@ -59,11 +70,13 @@ var TestMethodAPI = (function () {
 		 * @param testTitle {string} - A title for the test
 		 */
 		startTest : function (testNumber, testTitle) {
+			this._clearForTestStart();
+
 			this._tests[testNumber] = new Test(testNumber, testTitle);
 
 			this._currentTest = this._tests[testNumber];
 
-			this._clearForTestStart();
+			this._ts = Date.now();
 		},
 
 		/**
@@ -89,8 +102,10 @@ var TestMethodAPI = (function () {
 				"Errors Difference: (" + (this._currentTest.consolePrints.errors.length - this._consoleErrorCount) + ")"
 			);
 
+			var duration = Date.now() - this._ts;
+
 			if (this._printDOM) {
-				this._currentTest.print(this._getPrintoutContainer());
+				this._currentTest.print(this._getPrintoutContainer(), duration);
 			}
 
 			this._currentTest = null;
@@ -243,6 +258,8 @@ var TestMethodAPI = (function () {
 		_consoleErrorCount : 0,
 		_printDOM : false,
 		_printoutContainer : null,
+		_groupTs : 0, // group timestamp
+		_ts : 0, // test timestamp (from start to end test)
 
 		_actuallyConsolePrint : false,
 
@@ -280,6 +297,12 @@ var TestMethodAPI = (function () {
 				title.addClass('groupTestTitle');
 				title.text(this._currentTestGroupName);
 				this._printoutContainer.append(title);
+
+				// Add a duration field
+				var duration = $('<div />');
+				duration.addClass('groupTimeStamp');
+				duration.text('Calculating...');
+				this._printoutContainer.append(duration);
 			}
 
 			return this._printoutContainer;
@@ -288,6 +311,8 @@ var TestMethodAPI = (function () {
 			this._consoleLogCount = 0;
 			this._consoleWarnCount = 0;
 			this._consoleErrorCount = 0;
+
+			this._ts = 0;
 		}
 	};
 

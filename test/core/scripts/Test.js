@@ -38,7 +38,7 @@ var Test = (function () {
 				logs : [],
 				warns : [],
 				errors : []
-			}
+			};
 		},
 
 		/**
@@ -93,8 +93,9 @@ var Test = (function () {
 		 * Prints out the test to the DOM.
 		 *
 		 * @param printoutContainer {jQuery} - The to-be parent for this tests' printouts
+		 * @param duration {number} - The duration (in milliseconds) the test took
 		 */
-		print : function (printoutContainer) {
+		print : function (printoutContainer, duration) {
 			HeaderUtilities.include.jQuery();
 
 			// Create this test container
@@ -108,9 +109,8 @@ var Test = (function () {
 			testResults.hide();
 
 			// Add the header
-			var header = $('<p />');
+			var header = $('<div />');
 			header.addClass('header');
-			header.text(this._testTitle);
 			header.on('click', function () {
 				if (testResults.is(':visible'))
 					testResults.hide();
@@ -118,13 +118,24 @@ var Test = (function () {
 					testResults.show();
 			});
 
+			// Add the title
+			var title = $('<div />');
+			title.addClass('title');
+			title.text(this._testTitle);
+			header.append(title);
+
 			// Add brief stats
 			var briefStats = $('<div />');
 			briefStats.addClass('testStats_brief');
 			header.prepend(briefStats);
 
+			var ts = $('<div />');
+			ts.addClass('timeStamp');
+			ts.text('Duration: ' + ((duration > 0) ? '~' + duration + 'ms' : 'Negligible'));
+
 			// Important order of appending
 			thisContainer.append(header);
+			thisContainer.append(ts);
 			thisContainer.append(testResults);
 
 			// Add the successful tests

@@ -11,12 +11,9 @@ $badBGColor : #faa;
 $genericBorderRadius : 5px;
 
 
-/* Z-Indexes */
-$headerZIndex : 1;
-
 .groupTestContainer {
   border-bottom: 1px solid $casingColor;
-  padding-top: 10px;
+  padding-top: 5px;
 }
 
 .groupTestContainer .groupTestTitle {
@@ -25,6 +22,9 @@ $headerZIndex : 1;
   margin: 0;
   overflow: hidden;
   white-space: nowrap;
+}
+.groupTestContainer .groupTimeStamp {
+  padding: 0 10px;
 }
 
 .testContainer {
@@ -38,27 +38,38 @@ $headerZIndex : 1;
 
 .testContainer .header {
   @include disableSelection();
-  font-weight: bold;
+  display: table;
   cursor: pointer;
-  margin: 0;
-  overflow: hidden;
   white-space: nowrap;
-  z-index: $headerZIndex;
 }
 .testContainer .header .testStats_brief {
   border-radius: $genericBorderRadius * 2;
   color: black;
-  display: inline-block;
+  display: table-cell;
   padding: 2px 10px;
-  margin: 0 5px 0 0;
+  margin-right: 5px;
   text-align: center;
-  z-index: $headerZIndex + 1;
+  vertical-align: middle;
 }
 .testContainer .header .testStats_brief.pass {
   background-color: $goodBGColor;
 }
 .testContainer .header .testStats_brief.fail {
   background-color: $badBGColor;
+}
+.testContainer .header .title {
+  display: table-cell;
+  font-weight: bold;
+  overflow: hidden;
+  padding-left: 10px;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.testContainer .timeStamp {
+  color: white;
+  margin: 5px 5px 0 5px;
+  text-align: left;
 }
 
 .testContainer .testResults {
