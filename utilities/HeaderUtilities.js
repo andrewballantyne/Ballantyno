@@ -6,7 +6,7 @@ var HeaderUtilities = {
 	 * External Libraries.
 	 */
 	externals : {
-		/* Public Variables */
+		/* ----- Public Variables ----- */
 		// jQuery - General DOM Manipulation
 		JQUERY : 'http://code.jquery.com/jquery-2.1.1.min.js',
 
@@ -25,7 +25,7 @@ var HeaderUtilities = {
 	 * Includes. Include 'script' tags, 'link' tags, etc.
 	 */
 	include : {
-		/* Public Methods */
+		/* ----- Public Methods ----- */
 		/**
 		 * Include the latest jQuery library.
 		 */
@@ -89,10 +89,10 @@ var HeaderUtilities = {
 			HeaderUtilities.include._alreadyIncluded.push(url);
 		},
 
-		/* Private Variables */
+		/* ----- Private Variables ----- */
 		_alreadyIncluded : [],
 
-		/* Private Methods */
+		/* ----- Private Methods ----- */
 		_isIncluded : function (url) {
 			return HeaderUtilities.include._alreadyIncluded.indexOf(url) >= 0;
 		}
