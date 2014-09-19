@@ -145,6 +145,7 @@ var ExtendYesBaseNoConstructor = ClassVehicle.extendClass(BaseNoConstructor, {
 	}
 });
 
+Log.maxLogging();
 /* ------------ Series 1 Tests - Lets get some tests going! ------------ */
 TestMethodAPI.startFreshGroup('ClassVehicle Tests (Ideal Information)');
 TestMethodAPI.printToDOM();
@@ -234,3 +235,7 @@ TestMethodAPI.assertInstantiation(
 TestMethodAPI.endTest();
 
 TestMethodAPI.endGroup();
+
+Log.log("test");
+
+Log.resetLogging();

@@ -7,7 +7,9 @@
  * @requires jQuery (/utilities/HeaderUtilities.include.jQuery())
  */
 var TestMethodAPI = (function () {
-	function _TestMethodAPI() {}
+	function _TestMethodAPI() {
+		Log.attachListener(this._consolePrint);
+	}
 	_TestMethodAPI.prototype = {
 		/* ----- Public Variables ----- */
 
@@ -313,6 +315,22 @@ var TestMethodAPI = (function () {
 			this._consoleErrorCount = 0;
 
 			this._ts = 0;
+		},
+		_consolePrint : function (consoleString, type) {
+			console.log("Woot! " + type + " with '" + consoleString + "'");
+			switch (type) {
+				case Log.TYPE_LOG:
+					break;
+
+				case Log.TYPE_WARN:
+					break;
+
+				case Log.TYPE_ERROR:
+					break;
+
+				default:
+					throw new Error("Unknown log type called (" + type + ")");
+			}
 		}
 	};
 

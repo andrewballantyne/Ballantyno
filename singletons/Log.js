@@ -2,16 +2,37 @@
  * Created by Andrew on 17/09/14.
  *
  * @requires ConverterUtilities (/utilities/ConverterUtilities.js)
+ * @requires TypeUtilities  (/utilities/TypeUtilities.js)
  */
 
 var Log = new (ClassVehicle.createClass({
 	/* ----- Public Variables ----- */
+	TYPE_ALL : "allConsolePrints",
+	TYPE_LOG : "logConsolePrints",
+	TYPE_WARN : "warnConsolePrints",
+	TYPE_ERROR : "errorConsolePrints",
+
 	/**
 	 * A useful boolean to check if at any point in time it is okay to use debug-level testing/printing/coding in general.
 	 */
 	debugMode : false,
 
 	/* ----- Public Methods ----- */
+	/**
+	 *
+	 * @param informCallback
+	 * @param listenType {?}
+	 */
+	attachListener : function (informCallback, listenType) {
+		var type = TypeUtilities.valid.defaultTo(listenType, this.TYPE_ALL);
+
+		if (TypeUtilities.is.aFunction(informCallback)) {
+			if (this._informCallbacks[type] == null)
+				this._informCallbacks[type] = [];
+			this._informCallbacks[type].push(informCallback);
+		}
+	},
+
 	/**
 	 * 'Flip' logging OFF.
 	 * @see maxLogging()
@@ -47,9 +68,9 @@ var Log = new (ClassVehicle.createClass({
 	 * @params {*} - Any number of params you wish to print
 	 */
 	log : function () {
-		if (!this._canPrint(3)) return; // insufficient debug level
+		if (!this._canPrint(this._HIGH_LOG_LEVEL)) return; // insufficient debug level
 
-		this._console("console.log", arguments);
+		this._console(this.TYPE_LOG, arguments);
 	},
 
 	/**
@@ -60,9 +81,9 @@ var Log = new (ClassVehicle.createClass({
 	 * @params {*} - Any number of params you wish to print
 	 */
 	warn : function () {
-		if (!this._canPrint(2)) return; // insufficient debug level
+		if (!this._canPrint(this._MED_LOG_LEVEL)) return; // insufficient debug level
 
-		this._console("console.warn", arguments);
+		this._console(this.TYPE_WARN, arguments);
 	},
 
 	/**
@@ -73,9 +94,9 @@ var Log = new (ClassVehicle.createClass({
 	 * @params {*} - Any number of params you wish to print
 	 */
 	error : function () {
-		if (!this._canPrint(1)) return; // insufficient debug level
+		if (!this._canPrint(this._LOW_LOG_LEVEL)) return; // insufficient debug level
 
-		this._console("console.error", arguments);
+		this._console(this.TYPE_ERROR, arguments);
 	},
 
 	/**
@@ -107,22 +128,31 @@ var Log = new (ClassVehicle.createClass({
 	},
 
 	/* ----- Private Variables ----- */
+	_ALL_TYPES : null,
+
 	_MAX_LOG_LEVEL : 4, // All debug (errors, warnings, logs, and debugCode - sets debugMode to true)
 	_HIGH_LOG_LEVEL : 3, // Strong debug (errors, warnings, logs only)
 	_MED_LOG_LEVEL : 2, // Moderate debug (errors, warnings only)
 	_LOW_LOG_LEVEL : 1, // Soft debug (errors only)
 	_OFF_LOG_LEVEL : 0, // No debug
-	_logLevel : this._MED_LOG_LEVEL,
+	_logLevel : null,
 
 	_NORMAL_STATE : -1,
 	_THROTTLING_UP_STATE : -2,
 	_SILENCE_STATE : -3,
-	_manipulationState : this._NORMAL_STATE,
+	_manipulationState : null,
 
 	_initialized : false,
+	_informCallbacks : {},
+
 	/* ----- Private Methods ----- */
 	_init : function () {
+		this._logLevel = this._MAX_LOG_LEVEL;
+		this._manipulationState = this._NORMAL_STATE;
+
 		this.debugMode = (this._logLevel == this._MAX_LOG_LEVEL);
+
+		this._ALL_TYPES = [this.TYPE_ALL, this.TYPE_LOG, this.TYPE_WARN, this.TYPE_ERROR];
 
 		this._initialized = true;
 	},
@@ -134,21 +164,58 @@ var Log = new (ClassVehicle.createClass({
 		 *   OR
 		 * We have the needed log level (and we are not in silence state)
 		 */
-		return (
-			this._manipulationState == this._THROTTLING_UP_STATE ||
-			(this._logLevel >= neededLogSetting && this._manipulationState != this._SILENCE_STATE)
-		);
+		return (this._manipulationState == this._THROTTLING_UP_STATE) || (this._logLevel >= neededLogSetting && this._manipulationState != this._SILENCE_STATE);
 	},
-	_console : function (methodName, params) {
-		var evalString = methodName + "(";
-		for (var i = 0; i < params.length; i++) {
-			evalString += ConverterUtilities.eval.thisItem(params[i]);
+	_getMethodName : function (methodType) {
+		var methodName = 'console.';
+
+		switch (methodType) {
+			case Log.TYPE_LOG:
+				methodName += 'log';
+				break;
+
+			case Log.TYPE_WARN:
+				methodName += 'warn';
+				break;
+
+			case Log.TYPE_ERROR:
+				methodName += 'error';
+				break;
+
+			default:
+				throw new Error("Unknown method type (" + methodType + "), cannot get method name.");
+		}
+
+		return methodName;
+	},
+	_console : function (methodType, params) {
+		if (methodType == this.TYPE_ALL) throw new Error("Cannot log an 'all type'");
+
+		var consoleString = "";
+		var i;
+		for (i = 0; i < params.length; i++) {
+			consoleString += ConverterUtilities.eval.thisItem(params[i]);
 			if (i < params.length - 1) {
-				evalString += ",";
+				consoleString += ",";
 			}
 		}
-		evalString += ")";
 
-		eval(evalString);
+		var methodName = this._getMethodName(methodType);
+		eval(methodName + "(" + consoleString + ")");
+
+		// Inform any listening callbacks
+		for (i = 0; i < this._ALL_TYPES.length; i++) {
+			// Get the list of callbacks for this type
+			var type = this._ALL_TYPES[i];
+			var callbacks = this._informCallbacks[type];
+
+			// If there are no callbacks, move on
+			if (callbacks == null) continue;
+
+			// Loop the callbacks and inform each one of the log
+			for (var j = 0; j < callbacks.length; j++) {
+				callbacks[j](consoleString, methodType);
+			}
+		}
 	}
 }))();

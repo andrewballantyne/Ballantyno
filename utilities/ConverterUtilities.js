@@ -25,10 +25,10 @@ var ConverterUtilities = {
 			var convertedItem = null;
 
 			if (item instanceof Array) {
+				// An array, lets parse it as an array
 				convertedItem = ConverterUtilities.eval._fromArray(item);
-			}
-
-			if (convertedItem == null) {
+			} else {
+				// Okay, it's a standard type, lets find out which one
 				switch (typeof item) {
 					case 'string':
 						convertedItem = ConverterUtilities.eval._fromString(item);
@@ -63,13 +63,17 @@ var ConverterUtilities = {
 			return returnString;
 		},
 		_fromObject : function (object) {
+			if (object == null) return object;
+
 			var returnString = "{";
 			for (var key in object) {
 				if (!object.hasOwnProperty(key)) continue;
 
 				returnString += key + ": " + object[key] + ",";
 			}
-			returnString = returnString.substr(0, returnString.length - 1);
+			if (returnString.length > 1)
+				// We are more than just '{', remove the trailing comma
+				returnString = returnString.substr(0, returnString.length - 1);
 			returnString += "}";
 
 			return returnString;

@@ -81,6 +81,10 @@ var TypeUtilities = {
 			}
 
 			return equal;
+		},
+
+		aFunction : function (item) {
+			return typeof item == 'function';
 		}
 	}
 };
