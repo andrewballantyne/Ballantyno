@@ -1,0 +1,46 @@
+@import '../constants/scss/fixedNumbers';
+
+$containerWidth: 150px;
+$actionsPadding: 5px;
+$actionsBorderWidth: 1px;
+$handleWidth: 10px;
+
+#siteNavigation {
+  left: 0;
+  height: 100%;
+  position: fixed;
+  text-align: center;
+  top: 0;
+  width: $containerWidth;
+}
+
+#siteNavigation .handle {
+  border: 1px solid blue;
+  position: absolute;
+  right: 0;
+  height: 100%;
+  width: $handleWidth;
+}
+
+#siteNavigation .actions {
+  background-color: gray;
+  border: $actionsBorderWidth solid black;
+  border-radius: 15px;
+  margin-top: 0 + $appleHeadBarOffset;
+  padding: $actionsPadding;
+  width: $containerWidth - $actionsPadding*2 - $actionsBorderWidth - $handleWidth;
+}
+
+#siteNavigation .actions .mainAction {
+  display: inline-block;
+  padding: 5px 0;
+  width: 100%;
+}
+#siteNavigation .actions .mainAction.link {
+  color: white;
+  text-decoration: none;
+}
+#siteNavigation .actions .mainAction.link:hover {
+  font-weight: bold;
+  text-decoration: underline;
+}

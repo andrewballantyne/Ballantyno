@@ -9,10 +9,12 @@
 	<script type="text/javascript">
 		// Include any external libraries
 		HeaderUtilities.include.jQuery();
+		HeaderUtilities.include.createjs();
 	</script>
 
 	<!-- Stand Alone Utilities -->
 	<script type="text/javascript" src="utilities/ConverterUtilities.js"></script>
+	<script type="text/javascript" src="utilities/FunctionUtilities.js"></script>
 	<script type="text/javascript" src="utilities/TypeUtilities.js"></script>
 
 	<!-- Core Classes -->
@@ -21,21 +23,38 @@
 	<!-- Singletons -->
 	<script type="text/javascript" src="singletons/Log.js"></script>
 
+	<!-- DomCasings -->
+	<script type="text/javascript" src="domCasings/PageNavigation.js"></script>
+
 	<!-- Testing Classes -->
 	<script type="text/javascript" src="test/core/TestMethodAPI.js"></script>
 	<script type="text/javascript" src="test/core/scripts/Test.js"></script>
 
+	<!-- Styles -->
+	<link rel="stylesheet" href="styles/index.css"/>
+
+	<!-- Startup -->
 	<script type="text/javascript">
+		function pageInit() {
+			new PageNavigation('siteNavigation');
+		}
 		function testInit() {
 			HeaderUtilities.include.script('test/classTests/testInit.js');
 		}
+		function lobbyInit() {
+			alert('Oh sure, wouldn\'t you like that to work!');
+		}
 	</script>
 </head>
-<body>
+<body onload="pageInit();">
 
-<div>
-	<button onclick="testInit();">Run Tests</button>
-	<button onclick="alert('Oh sure, wouldn\'t you like that to work!');">View Sites</button>
+<div id="siteNavigation">
+	<div class="handle"></div>
+	<div class="logo"></div>
+	<div class="actions">
+		<a href="javascript:void(0)" onclick="testInit();" class="mainAction link">Run Tests</a>
+		<a href="javascript:void(0)" onclick="lobbyInit();" class="mainAction link">Game Lobby</a>
+	</div>
 </div>
 
 </body>
