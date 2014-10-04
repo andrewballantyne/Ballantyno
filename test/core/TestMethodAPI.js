@@ -8,12 +8,21 @@
  */
 var TestMethodAPI = (function () {
 	function _TestMethodAPI() {
-		Log.attachListener(this._consolePrint);
 	}
 	_TestMethodAPI.prototype = {
 		/* ----- Public Variables ----- */
 
 		/* ----- Public Methods ----- */
+		/**
+		 * Initializes the Testing Framework.
+		 */
+		init : function () {
+			if (this._initialized) return; // already initialized
+
+			Log.attachListener(this._consolePrint);
+			this._initialized= true;
+		},
+
 		/**
 		 * Start Fresh, wipe all the current tests that are stored.
 		 *
@@ -22,6 +31,8 @@ var TestMethodAPI = (function () {
 		 * @param groupName - The name of the group of tests that are about to be run
 		 */
 		startFreshGroup : function (groupName) {
+			if (!this._initialized) this.init(); // might as well initialize it if it's not already initialized
+
 			this._currentTestGroupName = groupName;
 			this._currentTestGroupId = ConverterUtilities.strip.forDOMId(this._currentTestGroupName);
 			this._currentTest = null;
@@ -263,6 +274,7 @@ var TestMethodAPI = (function () {
 		_groupTs : 0, // group timestamp
 		_ts : 0, // test timestamp (from start to end test)
 
+		_initialized : false,
 		_actuallyConsolePrint : false,
 
 		/* ----- Private Methods ----- */

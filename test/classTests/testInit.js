@@ -6,6 +6,9 @@
  * @requires HeaderUtilities (/utilities/HeaderUtilities.js)
  */
 
+/** Testing Framework Init **/
+TestMethodAPI.init();
+
 /** ClassVehicle Test **/
 HeaderUtilities.include.script('test/classTests/jsClassVehicle/ClassVehicleTest.js');
 
