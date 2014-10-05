@@ -92,6 +92,24 @@ var Test = (function () {
 		},
 
 		/**
+		 * Gets the count of pass asserts.
+		 *
+		 * @returns {number} - The number of passes for this test
+		 */
+		getPassAssertCount : function () {
+			return this._asserts.successes.length;
+		},
+
+		/**
+		 * Gets the count of fail asserts.
+		 *
+		 * @returns {number} - The number of failures for this test
+		 */
+		getFailAssertCount : function () {
+			return this._asserts.fails.length;
+		},
+
+		/**
 		 * Prints out the test to the DOM.
 		 *
 		 * @param printoutContainer {jQuery} - The to-be parent for this tests' printouts
@@ -127,7 +145,7 @@ var Test = (function () {
 
 			// Add brief stats
 			var briefStats = $('<div />');
-			briefStats.addClass('testStats_brief');
+			briefStats.addClass('statsBrief');
 			header.prepend(briefStats);
 
 			// Important order of appending

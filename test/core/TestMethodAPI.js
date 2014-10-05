@@ -18,12 +18,30 @@ var TestMethodAPI = (function () {
 		/* ----- Public Methods ----- */
 		/**
 		 * Initializes the Testing Framework.
+		 *
+		 * @param activateDOMPrinting {boolean} - Set to True if you wish to enable DOM printing; False will disable DOM printing (this
+		 *  value can be changed at anytime from the printToDOM() method)
+		 *
+		 * @see printToDOM(boolean?)
 		 */
-		init : function () {
+		init : function (activateDOMPrinting) {
 			if (this._initialized) return; // already initialized
+			TypeUtilities.valid.defaultTo(activateDOMPrinting, false);
 
 			Log.attachListener(FunctionUtilities.callWithScope(this._consolePrint, this));
 			this._initialized = true;
+
+			if (activateDOMPrinting) {
+				this.printToDOM(true);
+			}
+		},
+
+		/**
+		 * Resets the full test suite.
+		 */
+		reset : function () {
+			this._testSuiteStats.pass = 0;
+			this._testSuiteStats.fail = 0;
 		},
 
 		/**
@@ -67,6 +85,9 @@ var TestMethodAPI = (function () {
 			if (this._printDOM === state) return;
 
 			this._printDOM = state;
+
+			if (this._testContainer == null)
+				this._createTestContainer();
 
 			if (this._printDOM) {
 				// If we are going to print to the DOM, we need the styles
@@ -116,8 +137,12 @@ var TestMethodAPI = (function () {
 				"Errors Difference: (" + (this._currentTest.consolePrints.errors.length - this._consoleErrorCount) + ")"
 			);
 
+			this._testSuiteStats.pass += this._currentTest.getPassAssertCount();
+			this._testSuiteStats.fail += this._currentTest.getFailAssertCount();
+
 			if (this._printDOM) {
 				this._currentTest.print(this._getPrintoutContainer());
+				this._updateTotalCount();
 			}
 
 			this._currentTest = null;
@@ -265,11 +290,18 @@ var TestMethodAPI = (function () {
 		_currentTestGroupId : '',
 		_currentTest : null,
 		_tests : {},
+		_testSuiteStats: {
+			pass: 0,
+			fail: 0
+		},
 		_consoleLogCount : 0,
 		_consoleWarnCount : 0,
 		_consoleErrorCount : 0,
 		_printDOM : false,
+		_testContainer : null,
 		_printoutContainer : null,
+		_testContainerTotalStatsSuccesses : null,
+		_testContainerTotalStatsFailures : null,
 		_groupTs : 0, // group timestamp
 
 		_initialized : false,
@@ -293,6 +325,10 @@ var TestMethodAPI = (function () {
 			if (this._printoutContainer != null && this._printoutContainer.prop('id') == this._currentTestGroupId)
 				return this._printoutContainer;
 
+			if (this._testContainer == null) {
+				this._createTestContainer();
+			}
+
 			// Try to get the DOM object
 			this._printoutContainer = $(this._currentTestGroupId);
 
@@ -302,7 +338,7 @@ var TestMethodAPI = (function () {
 				this._printoutContainer = $('<div />');
 				this._printoutContainer.prop('id', this._currentTestGroupId);
 				this._printoutContainer.addClass('groupTestContainer');
-				$(document.body).append(this._printoutContainer);
+				this._testContainer.append(this._printoutContainer);
 
 				// Add it's title
 				var title = $('<p />');
@@ -318,6 +354,49 @@ var TestMethodAPI = (function () {
 			}
 
 			return this._printoutContainer;
+		},
+		_createTestContainer : function () {
+			this._testContainer = $('<div />');
+			this._testContainer.prop('id', 'testSuite');
+			$(document.body).append(this._testContainer);
+
+			var header = $('<div />');
+			this._testContainer.append(header);
+
+			var testSuiteTitle = $('<div />');
+			testSuiteTitle.prop('id', 'testSuiteTitle');
+			testSuiteTitle.text('Test Suite');
+			header.append(testSuiteTitle);
+
+			var statsContainer = $('<div />');
+			statsContainer.addClass('testSuiteTotalStatsContainer');
+			header.append(statsContainer);
+
+			this._testContainerTotalStatsSuccesses = $('<div />');
+			this._testContainerTotalStatsSuccesses.addClass('testSuiteTotalStats');
+			this._testContainerTotalStatsSuccesses.addClass('statsBrief');
+			statsContainer.append(this._testContainerTotalStatsSuccesses);
+			this._testContainerTotalStatsFailures = $('<div />');
+			this._testContainerTotalStatsFailures.addClass('testSuiteTotalStats');
+			this._testContainerTotalStatsFailures.addClass('statsBrief');
+			statsContainer.append(this._testContainerTotalStatsFailures);
+		},
+		_updateTotalCount : function () {
+			// Update the successful count
+			var successful = this._testSuiteStats.pass;
+			this._testContainerTotalStatsSuccesses.text(successful + ' Pass' + ((successful > 1) ? 'es' : ''));
+			this._testContainerTotalStatsSuccesses.addClass('pass');
+
+			// Update the unsuccessful count
+			var unsuccessful = this._testSuiteStats.fail;
+			this._testContainerTotalStatsFailures.text(unsuccessful + ' Failure' + ((unsuccessful > 1) ? 's' : ''));
+			this._testContainerTotalStatsFailures.addClass('fail');
+
+			// If we don't have any, hide it for visual effect
+			if (unsuccessful == 0)
+				this._testContainerTotalStatsFailures.hide();
+			else
+				this._testContainerTotalStatsFailures.show();
 		},
 		_clearForTestStart : function () {
 			this._consoleLogCount = 0;

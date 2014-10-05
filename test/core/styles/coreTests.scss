@@ -10,6 +10,39 @@ $badBGColor : #faa;
 /* Sizes */
 $genericBorderRadius : 5px;
 
+.statsBrief {
+  border-radius: $genericBorderRadius * 2;
+  color: black;
+  display: table-cell;
+  padding: 2px 10px;
+  text-align: center;
+  vertical-align: middle;
+}
+.statsBrief.pass {
+  background-color: $goodBGColor;
+}
+.statsBrief.fail {
+  background-color: $badBGColor;
+}
+
+
+#testSuite {
+  display: table;
+}
+#testSuite #testSuiteTitle {
+  display: table-cell;
+  font-size: 28px;
+  font-weight: bold;
+  text-decoration: underline;
+}
+#testSuite .testSuiteTotalStatsContainer {
+  display: table-cell;
+}
+#testSuite .testSuiteTotalStats {
+  display: inline-block;
+  border: 1px solid #ccc;
+  margin-left: 5px;
+}
 
 .groupTestContainer {
   border-bottom: 1px solid $casingColor;
@@ -41,21 +74,6 @@ $genericBorderRadius : 5px;
   display: table;
   cursor: pointer;
   white-space: nowrap;
-}
-.testContainer .header .testStats_brief {
-  border-radius: $genericBorderRadius * 2;
-  color: black;
-  display: table-cell;
-  padding: 2px 10px;
-  margin-right: 5px;
-  text-align: center;
-  vertical-align: middle;
-}
-.testContainer .header .testStats_brief.pass {
-  background-color: $goodBGColor;
-}
-.testContainer .header .testStats_brief.fail {
-  background-color: $badBGColor;
 }
 .testContainer .header .title {
   display: table-cell;

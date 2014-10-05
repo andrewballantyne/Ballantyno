@@ -6,10 +6,21 @@
  * @requires HeaderUtilities (/utilities/HeaderUtilities.js)
  */
 
-/** Testing Framework Init **/
-TestMethodAPI.init();
+// Enable full logging as we are in test mode
+Log.maxLogging();
 
-/** ClassVehicle Test **/
-HeaderUtilities.include.script('test/classTests/jsClassVehicle/ClassVehicleTest.js');
+/** Testing Framework Init **/
+TestMethodAPI.init(true);
+
+/** ClassVehicle Tests **/
+HeaderUtilities.include.script('test/classTests/ClassVehicle/ClassVehicleUsage.js');
+HeaderUtilities.include.script('test/classTests/ClassVehicle/ClassVehicleHierarchy.js');
 
 /** Other Test.... **/
+
+
+/** Clear Test Data **/
+TestMethodAPI.reset();
+
+// Return logging back to it's previous state, as testing has finished
+Log.resetLogging();
