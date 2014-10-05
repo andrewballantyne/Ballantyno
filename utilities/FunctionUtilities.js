@@ -11,10 +11,15 @@ var FunctionUtilities = {
 	 */
 	callWithScope : function (method, scope) {
 		return function () {
-			if (arguments.length > 0) {
-				// If we have arguments passed in, lets pass them along through
+			var event = (TypeUtilities.is.anEvent(arguments[0])) ? arguments[0] : null;
+			var argumentOffset = 0;
+			if (event != null)
+				argumentOffset = 1;
+
+			if (arguments.length > argumentOffset) {
+				// We have arguments (skipping past the event if applicable)
 				var evalStatement = 'method.call(scope';
-				for (var i = 0; i < arguments.length; i++) {
+				for (var i = argumentOffset; i < arguments.length; i++) {
 					evalStatement += ',' + ConverterUtilities.eval.thisItem(arguments[i]);
 				}
 				evalStatement += ')';
@@ -22,7 +27,7 @@ var FunctionUtilities = {
 				eval(evalStatement);
 			} else {
 				// No arguments, lets just straight up call the method
-				method.call(scope);
+				method.call(scope, event);
 			}
 		};
 	}

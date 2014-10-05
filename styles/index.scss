@@ -22,6 +22,16 @@ $handleWidth: 10px;
   width: $handleWidth;
 }
 
+#siteNavigation .logoContainer {
+  height: $appleHeadBarOffset;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+#siteNavigation .logoContainer .logo {
+
+}
+
 #siteNavigation .actions {
   background-color: gray;
   border: $actionsBorderWidth solid black;

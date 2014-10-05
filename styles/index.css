@@ -13,6 +13,12 @@
   height: 100%;
   width: 10px; }
 
+#siteNavigation .logoContainer {
+  height: 50px;
+  position: absolute;
+  top: 0;
+  width: 100%; }
+
 #siteNavigation .actions {
   background-color: gray;
   border: 1px solid black;

@@ -25,6 +25,7 @@
 
 	<!-- DomCasings -->
 	<script type="text/javascript" src="domCasings/PageNavigation.js"></script>
+	<script type="text/javascript" src="domCasings/IndexPageNavigation.js"></script>
 
 	<!-- Testing Classes -->
 	<script type="text/javascript" src="test/core/TestMethodAPI.js"></script>
@@ -36,7 +37,7 @@
 	<!-- Startup -->
 	<script type="text/javascript">
 		function pageInit() {
-			new PageNavigation('siteNavigation');
+			new IndexPageNavigation('siteNavigation');
 		}
 		function testInit() {
 			HeaderUtilities.include.script('test/classTests/testInit.js');
@@ -50,10 +51,12 @@
 
 <div id="siteNavigation">
 	<div class="handle"></div>
-	<div class="logo"></div>
+	<div class="logoContainer">
+		<div class="logo"></div>
+	</div>
 	<div class="actions">
-		<a href="javascript:void(0)" onclick="testInit();" class="mainAction link">Run Tests</a>
-		<a href="javascript:void(0)" onclick="lobbyInit();" class="mainAction link">Game Lobby</a>
+		<a href="javascript:void(0);" onclick="testInit();" class="mainAction link">Run Tests</a>
+		<a href="javascript:void(0);" onclick="lobbyInit();" class="mainAction link">Game Lobby</a>
 	</div>
 </div>
 

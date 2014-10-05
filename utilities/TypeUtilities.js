@@ -85,6 +85,13 @@ var TypeUtilities = {
 
 		aFunction : function (item) {
 			return typeof item == 'function';
+		},
+
+		anEvent : function (event) {
+			return (
+				(event instanceof Event) ||			// Regular Event
+				(event instanceof jQuery.Event)		// jQuery Event
+			);
 		}
 	}
 };
