@@ -19,9 +19,8 @@ var TestMethodAPI = (function () {
 		init : function () {
 			if (this._initialized) return; // already initialized
 
-			var _this = this;
-			Log.attachListener(function (consoleString, type) { _this._consolePrint(consoleString, type); });
-			this._initialized= true;
+			Log.attachListener(FunctionUtilities.callWithScope(this._consolePrint, this));
+			this._initialized = true;
 		},
 
 		/**
