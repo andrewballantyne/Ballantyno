@@ -33,21 +33,8 @@
 
 	<!-- Styles -->
 	<link rel="stylesheet" href="styles/index.css"/>
-
-	<!-- Startup -->
-	<script type="text/javascript">
-		function pageInit() {
-			new IndexPageNavigation('siteNavigation');
-		}
-		function testInit() {
-			HeaderUtilities.include.script('test/classTests/testInit.js');
-		}
-		function lobbyInit() {
-			alert('Oh sure, wouldn\'t you like that to work!');
-		}
-	</script>
 </head>
-<body onload="pageInit();">
+<body onload="new IndexPageNavigation('siteNavigation');">
 
 <div id="siteNavigation">
 	<div class="handle closeState" style="display: none;"></div>
@@ -57,8 +44,9 @@
 	<div class="panel">
 		<div class="handle openState"></div>
 		<div class="actions">
-			<a href="javascript:void(0);" onclick="testInit();" class="mainAction link first">Run Tests</a>
-			<a href="javascript:void(0);" onclick="lobbyInit();" class="mainAction link">Game Lobby</a>
+			<a href="javascript:void(0);" id="clearScreen" class="mainAction link first">Clear</a>
+			<a href="javascript:void(0);" id="runTests" class="mainAction link">Run Tests</a>
+			<a href="javascript:void(0);" id="showLobby" class="mainAction link">Game Lobby</a>
 		</div>
 		<div class="options">
 			<div class="optionItem">

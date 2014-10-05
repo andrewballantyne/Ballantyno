@@ -45,6 +45,31 @@ var TestMethodAPI = (function () {
 		},
 
 		/**
+		 * Checks to see if the TestMethodAPI has rendered to the DOM.
+		 *
+		 * @returns {boolean} - True if rendered; False if not
+		 */
+		isRendered : function () {
+			return this._testContainer != null;
+		},
+
+		/**
+		 * Hide the test container. If it has been rendered.
+		 */
+		hide : function () {
+			if (this._testContainer != null)
+				this._testContainer.hide();
+		},
+
+		/**
+		 * Show the test container. If it has been rendered.
+		 */
+		show : function () {
+			if (this._testContainer != null)
+				this._testContainer.show();
+		},
+
+		/**
 		 * Start Fresh, wipe all the current tests that are stored.
 		 *
 		 * Note: Doesn't clear the printToDOM setting.
@@ -52,7 +77,7 @@ var TestMethodAPI = (function () {
 		 * @param groupName - The name of the group of tests that are about to be run
 		 */
 		startFreshGroup : function (groupName) {
-			if (!this._initialized) this.init(); // might as well initialize it if it's not already initialized
+			if (!this._initialized) this.init(true); // might as well initialize it if it's not already initialized
 
 			this._currentTestGroupName = groupName;
 			this._currentTestGroupId = ConverterUtilities.strip.forDOMId(this._currentTestGroupName);

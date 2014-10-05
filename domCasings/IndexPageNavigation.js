@@ -48,10 +48,25 @@ var IndexPageNavigation = ClassVehicle.extendClass(PageNavigation, {
 
 	/* ----- Private Methods ----- */
 	_configureActionOnClicks : function () {
-		this.__actions.find('a').on('click', FunctionUtilities.callWithScope(function () {
+		// Set up all the clicks to validate against the options
+		this.__actions.find('a').not('#clearScreen').on('click', FunctionUtilities.callWithScope(function (e) {
 			if (this._autoHideCheckbox.prop('checked')) {
 				this.hide();
 			}
+		}, this));
+
+		// Add each individual button click
+		this.__actions.find('#clearScreen').on('click', FunctionUtilities.callWithScope(function (e) {
+			TestMethodAPI.hide();
+		}, this));
+		this.__actions.find('#runTests').on('click', FunctionUtilities.callWithScope(function (e) {
+			if (TestMethodAPI.isRendered())
+				TestMethodAPI.show();
+			else
+				HeaderUtilities.include.script('test/classTests/testInit.js');
+		}, this));
+		this.__actions.find('#showLobby').on('click', FunctionUtilities.callWithScope(function (e) {
+			alert('Oh sure, wouldn\'t you like that to work!');
 		}, this));
 	},
 	_configureOptionDefaults : function () {
