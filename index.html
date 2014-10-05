@@ -50,13 +50,21 @@
 <body onload="pageInit();">
 
 <div id="siteNavigation">
-	<div class="handle"></div>
+	<div class="handle closeState" style="display: none;"></div>
 	<div class="logoContainer">
-		<div class="logo"></div>
+		<div class="logo outer"><div class="logo inner">Ballantyno</div></div>
 	</div>
-	<div class="actions">
-		<a href="javascript:void(0);" onclick="testInit();" class="mainAction link">Run Tests</a>
-		<a href="javascript:void(0);" onclick="lobbyInit();" class="mainAction link">Game Lobby</a>
+	<div class="panel">
+		<div class="handle openState"></div>
+		<div class="actions">
+			<a href="javascript:void(0);" onclick="testInit();" class="mainAction link first">Run Tests</a>
+			<a href="javascript:void(0);" onclick="lobbyInit();" class="mainAction link">Game Lobby</a>
+		</div>
+		<div class="options">
+			<div class="optionItem">
+				<input type="checkbox" id="autoHideCheckbox" /><label for="autoHideCheckbox">Auto Hide</label>
+			</div>
+		</div>
 	</div>
 </div>
 

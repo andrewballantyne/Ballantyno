@@ -4,6 +4,9 @@
  * A home-grown testing framework that will create a DOM report (if so desired).
  *
  * @requires Test (./scripts/Test.js)
+ * @requires Log (/singletons/Log.js)
+ * @requires ConverterUtilities (/utilities/ConverterUtilities.js)
+ * @requires FunctionUtilities (/utilities/FunctionUtilities.js)
  * @requires jQuery (/utilities/HeaderUtilities.include.jQuery())
  */
 var TestMethodAPI = (function () {

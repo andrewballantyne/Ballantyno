@@ -3,7 +3,9 @@
 $containerWidth: 150px;
 $actionsPadding: 5px;
 $actionsBorderWidth: 1px;
+$basicBorderRadius: 15px;
 $handleWidth: 10px;
+$extendOffsetLeft: $basicBorderRadius * 2;
 
 #siteNavigation {
   left: 0;
@@ -14,43 +16,95 @@ $handleWidth: 10px;
   width: $containerWidth;
 }
 
-#siteNavigation .handle {
-  border: 1px solid blue;
-  position: absolute;
-  right: 0;
+#siteNavigation .panel {
+  background-image: linear-gradient(gray, black);
+  border: 1px solid black;
+  border-radius: $basicBorderRadius;
   height: 100%;
+  overflow: hidden;
+  position: absolute;
+  left: -$basicBorderRadius;
+  top: $appleHeadBarOffset;
+  width: $basicBorderRadius + $containerWidth;
+}
+
+.handle.openState, .handle.closeState {
+  background-image: linear-gradient(blue, darkblue);
+  height: 100%;
+  position: absolute;
+  top: 0;
   width: $handleWidth;
+}
+.handle.openState {
+  right: 0;
+}
+
+.handle.closeState {
+  border-radius: $basicBorderRadius;
+  left: -$basicBorderRadius;
+  top: $appleHeadBarOffset;
+  width: $handleWidth + $basicBorderRadius;
 }
 
 #siteNavigation .logoContainer {
   height: $appleHeadBarOffset;
   position: absolute;
+  text-align: center;
   top: 0;
   width: 100%;
 }
-#siteNavigation .logoContainer .logo {
-
+#siteNavigation .logoContainer .logo.outer {
+  background-image: linear-gradient(blue, darkblue);
+  border-radius: $basicBorderRadius;
+  bottom: 0;
+  display: table;
+  left: 0;
+  height: 50%;
+  margin: auto;
+  position: absolute;
+  right: $handleWidth;
+  top: 0;
+  width: 80%;
+  vertical-align: middle;
+}
+#siteNavigation .logoContainer .logo.inner {
+  color: white;
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
 }
 
 #siteNavigation .actions {
-  background-color: gray;
-  border: $actionsBorderWidth solid black;
-  border-radius: 15px;
-  margin-top: 0 + $appleHeadBarOffset;
   padding: $actionsPadding;
-  width: $containerWidth - $actionsPadding*2 - $actionsBorderWidth - $handleWidth;
+  width: $containerWidth - $actionsPadding*2 - $actionsBorderWidth - $handleWidth + $extendOffsetLeft;
 }
 
 #siteNavigation .actions .mainAction {
   display: inline-block;
   padding: 5px 0;
-  width: 100%;
+  width: $containerWidth - $containerWidth / 4;
 }
 #siteNavigation .actions .mainAction.link {
   color: white;
+  font-weight: bold;
   text-decoration: none;
 }
 #siteNavigation .actions .mainAction.link:hover {
-  font-weight: bold;
-  text-decoration: underline;
+  background-image: linear-gradient(blue, darkblue);
+}
+#siteNavigation .actions .mainAction.link:not(.first) {
+  border-top: 1px solid #ccc;
+}
+#siteNavigation .panel .options {
+  position: absolute;
+  bottom: $appleHeadBarOffset + 5px;
+  width: 80%;
+}
+#siteNavigation .panel .options {
+  color: white;
+}
+#siteNavigation .panel .optionItem {
+  background-image: linear-gradient(#33f, #22f);
+  border: 1px solid black;
+  border-radius: 15px;
 }

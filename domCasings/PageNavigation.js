@@ -1,33 +1,33 @@
 /**
  * Created by Andrew on 04/10/14.
  *
+ * @requires FunctionUtilities (/utilities/FunctionUtilities.js)
  * @abstract
  */
 var PageNavigation = ClassVehicle.createClass(true, {
+	/* ----- Public Variables ----- */
+	/* ----- Public Methods ----- */
+	/**
+	 * Standard Page Navigation DOM Casing.
+	 *
+	 * @param mainDivId - The ID of the Navigation Container interface
+	 */
 	constructor : function (mainDivId) {
-		this.me = $('#' + mainDivId);
+		this.__me = $('#' + mainDivId);
 
-		this.actions = this.me.find('.actions');
+		this.__openHandle = this.__me.find('.handle.closeState');
 
-		this.handle = this.me.find('.handle');
-		if (this.handle.length > 0) {
-			this.handle.on('click', FunctionUtilities.callWithScope(this.handleClick, this));
+		this.__panel = this.__me.find('.panel');
+
+		this.__actions = this.__panel.find('.actions');
+		this.__closeHandle = this.__panel.find('.handle.openState');
+		if (this.__closeHandle.length > 0) {
+			var onClick = FunctionUtilities.callWithScope(this._handleClick, this);
+			this.__openHandle.on('click', onClick);
+			this.__closeHandle.on('click', onClick);
 		}
 
 		this.isVisible = true;
-	},
-
-	/**
-	 * 'Handle' Click Handler
-	 *
-	 * @param e - The event from the click
-	 */
-	handleClick : function (e) {
-		if (this.isVisible) {
-			this.hide();
-		} else {
-			this.show();
-		}
 	},
 
 	/**
@@ -37,28 +37,39 @@ var PageNavigation = ClassVehicle.createClass(true, {
 	 */
 	hide : function () {
 		// Hide the actions first, since we are going to reduce the width of the Page Navigation
-		this.actions.hide();
-
-		// Shrink the Page Navigation down to the width of the handle
-		this.me.css({
-			width: this.handle.width() + 'px'
-		});
+		this.__panel.hide();
 
 		this.isVisible = false;
+
+		this.__openHandle.show();
 	},
 
 	/**
 	 * Shows this Page Navigation.
 	 */
 	show : function () {
-		// Remove the custom width we used in hide() first
-		this.me.css({
-			width: ''
-		});
-
 		// Reshow the actions
-		this.actions.show();
+		this.__panel.show();
 
 		this.isVisible = true;
-	}
+
+		this.__openHandle.hide();
+	},
+
+	/* ----- Private Variables ----- */
+	/* ----- Private Methods ----- */
+	_handleClick : function (e) {
+		if (this.isVisible) {
+			this.hide();
+		} else {
+			this.show();
+		}
+	},
+
+	/* ----- Protected Variables ----- */
+	__me : null,
+	__openHandle : null,
+	__panel : null,
+	__actions : null,
+	__closeHandle : null
 });
