@@ -11,7 +11,7 @@ Personal library for my, Andrew "Ballantyno" Ballantyne, JavaScript fiddles.
 
 ## Scope And Goals
 
-I am to create as many wacky, fun and crazy ideas that come to my mind. With no obligations to structure code in any specific way, I will
+I aim to create as many wacky, fun and crazy ideas that come to my mind. With no obligations to structure code in any specific way, I will
 code to my own standards (which are probably higher than the average, but always could use with a few improvements).
 
 **Primary Goals:**
