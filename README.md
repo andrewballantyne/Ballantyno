@@ -42,14 +42,6 @@ that is in use and not relying on someone else to update/maintain.
 I may, from time to time, say f' it to an issue for the sake of still enjoying coming back to this day-to-day. Eventually I will solve
 all the issues, but they may end up on the back burner for some time. This will be a log of all those issues.
 
-#### ClassVehicle.js
-
- - It does not properly extend classes. They do not have the same 'this' property. Ie. ClassB extends ClassA, ClassB does not have the
- properties of ClassA (this.myClassAVariable does not work).
-     - See PageNavigation and IndexPageNavigation
- - Due to the dynamic nature of class creation, Chrome will VM the methods and breakpoints do not work
-     - Possible Fix: would be to use a wrapper method and call the prototype method directly form within, rather than copying it over
-
 #### Log.js
 
  - The listeners that are fired off in *\_console()* only pass the first argument back. There currently isn't proper support for any args

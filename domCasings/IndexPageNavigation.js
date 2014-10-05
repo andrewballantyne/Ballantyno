@@ -1,23 +1,22 @@
 /**
  * Created by Andrew on 04/10/14.
+ *
+ * @extends PageNavigation
  */
 var IndexPageNavigation = ClassVehicle.extendClass(PageNavigation, {
-	constructor : function () {
-		debugger;
-		this.super.constructor();
+	constructor : function (mainDivId) {
+		this.super.constructor.call(this, mainDivId);
 
-		this.logoContainer = this.super.me.find('.logoContainer');
+		this.logoContainer = this.me.find('.logoContainer');
 	},
 
 	hide : function () {
-		debugger;
 		this.logoContainer.hide();
-		this.super.hide();
+		this.super.hide.call(this);
 	},
 
 	show : function () {
-		debugger;
-		this.super.show();
+		this.super.show.call(this);
 		this.logoContainer.show();
 	}
 });

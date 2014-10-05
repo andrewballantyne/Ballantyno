@@ -1,5 +1,7 @@
 /**
  * Created by Andrew on 04/10/14.
+ *
+ * @abstract
  */
 var PageNavigation = ClassVehicle.createClass(true, {
 	constructor : function (mainDivId) {

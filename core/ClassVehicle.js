@@ -96,7 +96,7 @@ var ClassVehicle = (function () {
 				if (CurrentClass.prototype.super != null) {
 					CurrentClass.prototype.constructor = function (constructorProperties) {
 						/* Yes Parent Stock Constructor */
-						this.super.constructor(constructorProperties); // call parent
+						this.super.constructor.call(this, constructorProperties); // call parent
 					};
 				} else {
 					CurrentClass.prototype.constructor = function (constructorProperties) {
