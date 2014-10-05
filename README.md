@@ -42,9 +42,9 @@ that is in use and not relying on someone else to update/maintain.
 I may, from time to time, say f' it to an issue for the sake of still enjoying coming back to this day-to-day. Eventually I will solve
 all the issues, but they may end up on the back burner for some time. This will be a log of all those issues.
 
-### Log.js
+#### Log.js
 
- - The listeners that are fired off in _console() only pass the first argument back. There currently isn't proper support for any args
+ - The listeners that are fired off in *\_console()* only pass the first argument back. There currently isn't proper support for any args
   beyond 1 to be sent to the listeners.
 
 ## License
