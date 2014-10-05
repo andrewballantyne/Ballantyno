@@ -19,9 +19,12 @@ var Log = new (ClassVehicle.createClass({
 
 	/* ----- Public Methods ----- */
 	/**
+	 * Attaches a listener to the Log instance. Every time a console print happens, the Log will notify all listeners that the log has
+	 * been done. This is useful if you want to catch and parse any console logs (ie for testing purposes).
 	 *
-	 * @param informCallback
-	 * @param listenType {?}
+	 * @param informCallback {Function} - The callback to inform
+	 * @param listenType {string?} - Optional. The listener type Log.TYPE_ALL, TYPE_LOG, TYPE_WARN, and TYPE_ERROR are the available
+	 *  options, defaults to TYPE_ALL
 	 */
 	attachListener : function (informCallback, listenType) {
 		var type = TypeUtilities.valid.defaultTo(listenType, this.TYPE_ALL);
@@ -164,7 +167,10 @@ var Log = new (ClassVehicle.createClass({
 		 *   OR
 		 * We have the needed log level (and we are not in silence state)
 		 */
-		return (this._manipulationState == this._THROTTLING_UP_STATE) || (this._logLevel >= neededLogSetting && this._manipulationState != this._SILENCE_STATE);
+		return (
+			(this._manipulationState == this._THROTTLING_UP_STATE) ||
+			(this._logLevel >= neededLogSetting && this._manipulationState != this._SILENCE_STATE)
+		);
 	},
 	_getMethodName : function (methodType) {
 		var methodName = 'console.';
@@ -199,7 +205,7 @@ var Log = new (ClassVehicle.createClass({
 				consoleString += ",";
 			}
 		}
-
+		
 		var methodName = this._getMethodName(methodType);
 		eval(methodName + "(" + consoleString + ")");
 
@@ -214,7 +220,8 @@ var Log = new (ClassVehicle.createClass({
 
 			// Loop the callbacks and inform each one of the log
 			for (var j = 0; j < callbacks.length; j++) {
-				callbacks[j](consoleString, methodType);
+				// XXX: params[0] should really handle more than one param at a time (as the log, warn and error methods do)
+				callbacks[j](params[0], methodType);
 			}
 		}
 	}

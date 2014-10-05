@@ -19,7 +19,8 @@ var TestMethodAPI = (function () {
 		init : function () {
 			if (this._initialized) return; // already initialized
 
-			Log.attachListener(this._consolePrint);
+			var _this = this;
+			Log.attachListener(function (consoleString, type) { _this._consolePrint(consoleString, type); });
 			this._initialized= true;
 		},
 
@@ -88,8 +89,6 @@ var TestMethodAPI = (function () {
 			this._tests[testNumber] = new Test(testNumber, testTitle);
 
 			this._currentTest = this._tests[testNumber];
-
-			this._ts = Date.now();
 		},
 
 		/**
@@ -115,10 +114,8 @@ var TestMethodAPI = (function () {
 				"Errors Difference: (" + (this._currentTest.consolePrints.errors.length - this._consoleErrorCount) + ")"
 			);
 
-			var duration = Date.now() - this._ts;
-
 			if (this._printDOM) {
-				this._currentTest.print(this._getPrintoutContainer(), duration);
+				this._currentTest.print(this._getPrintoutContainer());
 			}
 
 			this._currentTest = null;
@@ -272,7 +269,6 @@ var TestMethodAPI = (function () {
 		_printDOM : false,
 		_printoutContainer : null,
 		_groupTs : 0, // group timestamp
-		_ts : 0, // test timestamp (from start to end test)
 
 		_initialized : false,
 		_actuallyConsolePrint : false,
@@ -325,19 +321,19 @@ var TestMethodAPI = (function () {
 			this._consoleLogCount = 0;
 			this._consoleWarnCount = 0;
 			this._consoleErrorCount = 0;
-
-			this._ts = 0;
 		},
 		_consolePrint : function (consoleString, type) {
-			console.log("Woot! " + type + " with '" + consoleString + "'");
 			switch (type) {
 				case Log.TYPE_LOG:
+					this.log(consoleString);
 					break;
 
 				case Log.TYPE_WARN:
+					this.warn(consoleString);
 					break;
 
 				case Log.TYPE_ERROR:
+					this.error(consoleString);
 					break;
 
 				default:

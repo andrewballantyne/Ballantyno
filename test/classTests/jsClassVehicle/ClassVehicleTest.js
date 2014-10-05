@@ -29,17 +29,17 @@ var Vehicle = ClassVehicle.createClass(true, {
 	type : "Vehicle",
 
 	constructor : function() {
-		TestMethodAPI.log("Vehicle Constructor");
+		Log.log("Vehicle Constructor");
 	},
 	drive : function(km) {
 		TypeUtilities.valid.makeMandatory(km);
-		TestMethodAPI.log("Driving " + km + "km");
+		Log.log("Driving " + km + "km");
 	},
 	useHorn : function() {
-		TestMethodAPI.log("~Generic Horn~");
+		Log.log("~Generic Horn~");
 	},
 	printDetails : function() {
-		TestMethodAPI.log(this.make + " " + this.type);
+		Log.log(this.make + " " + this.type);
 	}
 });
 
@@ -53,7 +53,7 @@ var Sedan = ClassVehicle.extendClass(Vehicle, true, {
 
 	constructor : function() {
 		this.super.constructor();
-		TestMethodAPI.log("Sedan Constructor");
+		Log.log("Sedan Constructor");
 	}
 });
 
@@ -69,7 +69,7 @@ var DodgeSedan = ClassVehicle.extendClass(Sedan, {
 	constructor : function(model) {
 		TypeUtilities.valid.makeMandatory(model, null, null);
 		this.super.constructor();
-		TestMethodAPI.log("DodgeSedan Constructor");
+		Log.log("DodgeSedan Constructor");
 
 		this.model = model;
 	},
@@ -78,14 +78,14 @@ var DodgeSedan = ClassVehicle.extendClass(Sedan, {
 	 * Prints the details of the DodgeSedan.
 	 */
 	printDetails : function() {
-		TestMethodAPI.log(this.make + " " + this.model + " - Type " + this.type);
+		Log.log(this.make + " " + this.model + " - Type " + this.type);
 	},
 
 	/**
 	 * Uses the DodgeSedan's unique horn.
 	 */
 	useHorn : function() {
-		TestMethodAPI.log("~Distinctive Dodge Sedan Car Horn~");
+		Log.log("~Distinctive Dodge Sedan Car Horn~");
 	}
 });
 
@@ -103,7 +103,7 @@ var BaseNoConstructor = ClassVehicle.createClass({
  */
 var BaseYesConstructor = ClassVehicle.createClass({
 	constructor : function () {
-		TestMethodAPI.log("BaseYesConstructor.constructor Called");
+		Log.log("BaseYesConstructor.constructor Called");
 	}
 });
 /**
@@ -122,7 +122,7 @@ var ExtendNoBaseNoConstructor = ClassVehicle.extendClass(BaseNoConstructor, {
 var ExtendYesBaseYesConstructor = ClassVehicle.extendClass(BaseYesConstructor, {
 	constructor : function () {
 		this.super.constructor();
-		TestMethodAPI.log("ExtendYesBaseYesConstructor.constructor Called");
+		Log.log("ExtendYesBaseYesConstructor.constructor Called");
 	}
 });
 /**
@@ -141,7 +141,7 @@ var ExtendNoBaseYesConstructor = ClassVehicle.extendClass(BaseYesConstructor, {
 var ExtendYesBaseNoConstructor = ClassVehicle.extendClass(BaseNoConstructor, {
 	constructor : function () {
 		this.super.constructor();
-		TestMethodAPI.log("ExtendYesBaseNoConstructor.constructor Called");
+		Log.log("ExtendYesBaseNoConstructor.constructor Called");
 	}
 });
 
@@ -235,7 +235,5 @@ TestMethodAPI.assertInstantiation(
 TestMethodAPI.endTest();
 
 TestMethodAPI.endGroup();
-
-Log.log("test");
 
 Log.resetLogging();

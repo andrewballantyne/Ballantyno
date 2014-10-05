@@ -28,6 +28,8 @@ var Test = (function () {
 		 * @param testTitle {string} - A title for the test
 		 */
 		constructor : function (testNumber, testTitle) {
+			this._ts = Date.now();
+
 			this._testNumber = testNumber;
 			this._testTitle = testTitle;
 			this._asserts = {
@@ -93,9 +95,8 @@ var Test = (function () {
 		 * Prints out the test to the DOM.
 		 *
 		 * @param printoutContainer {jQuery} - The to-be parent for this tests' printouts
-		 * @param duration {number} - The duration (in milliseconds) the test took
 		 */
-		print : function (printoutContainer, duration) {
+		print : function (printoutContainer) {
 			HeaderUtilities.include.jQuery();
 
 			// Create this test container
@@ -129,13 +130,8 @@ var Test = (function () {
 			briefStats.addClass('testStats_brief');
 			header.prepend(briefStats);
 
-			var ts = $('<div />');
-			ts.addClass('timeStamp');
-			ts.text('Duration: ' + ((duration > 0) ? '~' + duration + 'ms' : 'Negligible'));
-
 			// Important order of appending
 			thisContainer.append(header);
-			thisContainer.append(ts);
 			thisContainer.append(testResults);
 
 			// Add the successful tests
@@ -163,6 +159,13 @@ var Test = (function () {
 				briefStats.text(successful + ' Pass' + ((successful > 1) ? 'es' : ''));
 				briefStats.addClass('pass');
 			}
+
+			// Calculate the Duration and post it
+			var ts = $('<div />');
+			ts.addClass('timeStamp');
+			var duration = Date.now() - this._ts;
+			ts.text('Duration: ' + ((duration > 0) ? '~' + duration + 'ms' : 'Negligible (less than 1ms)'));
+			thisContainer.append(ts);
 
 			// Add it to the parent 'printout' container
 			printoutContainer.append(thisContainer);
@@ -194,6 +197,7 @@ var Test = (function () {
 		},
 
 		/* ----- Private Variables ----- */
+		_ts : 0, // timeStamp (for duration of test)
 		_testNumber : -1,
 		_testTitle : "",
 		_asserts : {
