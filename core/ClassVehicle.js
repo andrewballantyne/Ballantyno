@@ -75,8 +75,7 @@ var ClassVehicle = (function () {
 				if (!ExtendedClass.prototype.hasOwnProperty(extendedProperty)) continue;
 				if (extendedProperty === "super") continue; // ignore super properties
 
-				var value = ConverterUtilities.eval.thisItem(ExtendedClass.prototype[extendedProperty]);
-				eval("CurrentClass.prototype." + extendedProperty + " = " + value);
+				CurrentClass.prototype[extendedProperty] = ExtendedClass.prototype[extendedProperty];
 			}
 
 			// Register super call property
@@ -88,9 +87,8 @@ var ClassVehicle = (function () {
 			for (var property in properties) {
 				if (!properties.hasOwnProperty(property)) continue;
 
-				var value = ConverterUtilities.eval.thisItem(properties[property]);
 				if (property == 'constructor') iHaveConstructor = true;
-				eval("CurrentClass.prototype." + property + " = " +  value);
+				CurrentClass.prototype[property] = properties[property];
 			}
 
 			if (!iHaveConstructor) {
