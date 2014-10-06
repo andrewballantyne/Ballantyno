@@ -47,7 +47,7 @@ all the issues, but they may end up on the back burner for some time. This will 
  - Currently there is a bug with multiple super.constructor.call(this), as passing 'this' is required to associate all super elements
  with the 'this' class, but it also prevents this.super from being any different at level 0 to level 1 down, unable to reach level 2 as
  it will just call level 1 again.
-      - Possible solution would be to use a stack (array) super list, and increment it behind the scenes?
+     - Possible solution would be to use a stack (array) super list, and increment it behind the scenes?
 
 #### Log.js
 
