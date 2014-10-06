@@ -1,2 +1,5 @@
 // The offset needed to shift content down off the head-toolbar that comes down when you click on the top of an apple device
 $appleHeadBarOffset: 50px;
+
+// To make the item on top of everything, use this... this number should be incremented if others are to use zIndex
+$topZIndex: 1;

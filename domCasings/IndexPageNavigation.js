@@ -41,6 +41,7 @@ var IndexPageNavigation = ClassVehicle.extendClass(PageNavigation, {
 	},
 
 	/* ----- Private Variables ----- */
+	_canvas : null,
 	_logoContainer : null,
 	_options : null,
 	_optionList : null,
@@ -57,7 +58,11 @@ var IndexPageNavigation = ClassVehicle.extendClass(PageNavigation, {
 
 		// Add each individual button click
 		this.__actions.find('#clearScreen').on('click', FunctionUtilities.callWithScope(function (e) {
-			TestMethodAPI.hide();
+			if (TestMethodAPI.isRendered())
+				TestMethodAPI.hide();
+
+			if (this._canvas.isRendered())
+				this._canvas.hide();
 		}, this));
 		this.__actions.find('#runTests').on('click', FunctionUtilities.callWithScope(function (e) {
 			if (TestMethodAPI.isRendered())
@@ -66,7 +71,7 @@ var IndexPageNavigation = ClassVehicle.extendClass(PageNavigation, {
 				HeaderUtilities.include.script('test/classTests/testInit.js');
 		}, this));
 		this.__actions.find('#showLobby').on('click', FunctionUtilities.callWithScope(function (e) {
-			alert('Oh sure, wouldn\'t you like that to work!');
+			this._canvas = new BallantynoCanvas();
 		}, this));
 	},
 	_configureOptionDefaults : function () {

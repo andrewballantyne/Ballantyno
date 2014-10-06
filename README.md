@@ -42,6 +42,13 @@ that is in use and not relying on someone else to update/maintain.
 I may, from time to time, say f' it to an issue for the sake of still enjoying coming back to this day-to-day. Eventually I will solve
 all the issues, but they may end up on the back burner for some time. This will be a log of all those issues.
 
+#### ClassVehicle
+
+ - Currently there is a bug with multiple super.constructor.call(this), as passing 'this' is required to associate all super elements
+ with the 'this' class, but it also prevents this.super from being any different at level 0 to level 1 down, unable to reach level 2 as
+ it will just call level 1 again.
+      - Possible solution would be to use a stack (array) super list, and increment it behind the scenes?
+
 #### Log.js
 
  - The listeners that are fired off in *\_console()* only pass the first argument back. There currently isn't proper support for any args

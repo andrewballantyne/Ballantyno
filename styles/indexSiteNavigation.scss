@@ -14,6 +14,7 @@ $extendOffsetLeft: $basicBorderRadius * 2;
   text-align: center;
   top: 0;
   width: $containerWidth;
+  z-index: $topZIndex;
 }
 
 #siteNavigation .panel {

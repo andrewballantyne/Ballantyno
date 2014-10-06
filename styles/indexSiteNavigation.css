@@ -4,7 +4,8 @@
   position: fixed;
   text-align: center;
   top: 0;
-  width: 150px; }
+  width: 150px;
+  z-index: 1; }
 
 #siteNavigation .panel {
   background-image: linear-gradient(gray, black);
