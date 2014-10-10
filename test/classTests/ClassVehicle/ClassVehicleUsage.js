@@ -47,7 +47,7 @@ var Sedan = ClassVehicle.extendClass(Vehicle, true, {
 	type : "Sedan",
 
 	constructor : function() {
-		this.super.constructor();
+		this.super.constructor.call(this);
 		Log.log("Sedan Constructor");
 	}
 });
@@ -63,7 +63,7 @@ var DodgeSedan = ClassVehicle.extendClass(Sedan, {
 
 	constructor : function(model) {
 		TypeUtilities.valid.makeMandatory(model, null, null);
-		this.super.constructor();
+		this.super.constructor.call(this);
 		Log.log("DodgeSedan Constructor");
 
 		this.model = model;

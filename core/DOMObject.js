@@ -5,6 +5,8 @@ var DOMObject = ClassVehicle.createClass({
 	constructor : function (domId) {
 		this._me = $(domId);
 
+		$(document.body).append(this._me);
+
 		this._rendered = true;
 	},
 

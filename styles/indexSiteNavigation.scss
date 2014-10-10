@@ -4,7 +4,7 @@ $containerWidth: 150px;
 $actionsPadding: 5px;
 $actionsBorderWidth: 1px;
 $basicBorderRadius: 15px;
-$handleWidth: 10px;
+$handleWidth: $fixedBarWidth;
 $extendOffsetLeft: $basicBorderRadius * 2;
 
 #siteNavigation {

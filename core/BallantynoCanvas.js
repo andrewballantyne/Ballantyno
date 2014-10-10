@@ -3,6 +3,6 @@
  */
 var BallantynoCanvas = ClassVehicle.extendClass(Canvas, {
 	constructor : function () {
-		this.super.constructor();
+		this.super.constructor.call(this);
 	}
 });

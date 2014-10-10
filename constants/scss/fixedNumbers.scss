@@ -3,3 +3,6 @@ $appleHeadBarOffset: 50px;
 
 // To make the item on top of everything, use this... this number should be incremented if others are to use zIndex
 $topZIndex: 1;
+
+// "fixed bar" refers to a strip in the UI that has a notable requirement to be there; such as the handle on the siteNavigation
+$fixedBarWidth: 10px;

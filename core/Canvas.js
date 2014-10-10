@@ -8,7 +8,5 @@ var Canvas = ClassVehicle.extendClass(DOMObject, true, {
 		this._me.prop('id', 'theCanvas');
 		this._me.prop('width', $(window).width() * .8);
 		this._me.prop('height', $(window).height() * .8);
-
-		$(document.body).append(this._me);
 	}
 });

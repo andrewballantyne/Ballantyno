@@ -22,7 +22,8 @@
   background-color: #ffaaaa; }
 
 #testSuite {
-  display: table; }
+  display: table;
+  margin-left: 20px; }
 
 #testSuite #testSuiteTitle {
   display: table-cell;

@@ -1,4 +1,5 @@
-@import '../../../constants/scss/classes.scss';
+@import '../../../constants/scss/classes';
+@import '../../../constants/scss/fixedNumbers';
 
 /* Colors */
 $casingColor : black;
@@ -28,6 +29,7 @@ $genericBorderRadius : 5px;
 
 #testSuite {
   display: table;
+  margin-left: $fixedBarWidth * 2;
 }
 #testSuite #testSuiteTitle {
   display: table-cell;

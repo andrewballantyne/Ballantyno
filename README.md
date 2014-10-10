@@ -44,10 +44,8 @@ all the issues, but they may end up on the back burner for some time. This will 
 
 #### ClassVehicle
 
- - Currently there is a bug with multiple super.constructor.call(this), as passing 'this' is required to associate all super elements
- with the 'this' class, but it also prevents this.super from being any different at level 0 to level 1 down, unable to reach level 2 as
- it will just call level 1 again.
-     - Possible solution would be to use a stack (array) super list, and increment it behind the scenes?
+ - New Problem. Old problem with .call(this) has been fixed. Currently BallantynoCanvas does not seem to get it's prototype params when
+ a new is invoked on it. The *this* object in the constructor does not have any properties assigned to it, but the __proto__ does, odd.
 
 #### Log.js
 

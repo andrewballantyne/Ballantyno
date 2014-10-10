@@ -42,7 +42,7 @@ var ExtendNoBaseNoConstructor = ClassVehicle.extendClass(BaseNoConstructor, {
  */
 var ExtendYesBaseYesConstructor = ClassVehicle.extendClass(BaseYesConstructor, {
 	constructor : function () {
-		this.super.constructor();
+		this.super.constructor.call(this);
 		Log.log("ExtendYesBaseYesConstructor.constructor Called");
 	}
 });
@@ -61,7 +61,7 @@ var ExtendNoBaseYesConstructor = ClassVehicle.extendClass(BaseYesConstructor, {
  */
 var ExtendYesBaseNoConstructor = ClassVehicle.extendClass(BaseNoConstructor, {
 	constructor : function () {
-		this.super.constructor();
+		this.super.constructor.call(this);
 		Log.log("ExtendYesBaseNoConstructor.constructor Called");
 	}
 });
