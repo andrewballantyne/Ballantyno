@@ -33,7 +33,11 @@ var BallantynoCanvas = (function (ParentClass, isAbstract) {
 
 	/* ----- Private Methods ----- */
 	function _drawTickTacToeBoard() {
-		this.$stage.addChild(new TickTacToeBoard(100,100));
+		var tickTacToeBoard = new TickTacToeBoard(200,200);
+		tickTacToeBoard.x = 50;
+		tickTacToeBoard.y = 50;
+
+		this.$stage.addChild(tickTacToeBoard);
 	}
 
 	/**

@@ -53,6 +53,16 @@ all the issues, but they may end up on the back burner for some time. This will 
   beyond 1 to be sent to the listeners.
     - The solution to this seems to be `method.apply(this, arguments);`
 
+#### Tick Tac Toe - createjs.Shape.hitArea
+
+- Not sure why, but I can't seem to get a hitArea to work on a shape for TickTacToe. This has caused me to have to hack a small bg
+  highlight that is clickable, instead of an invisible hitArea.
+
+#### Class Creation - Scoping Issue
+
+- Current way of doing private variables will not work. They MUST be associated with the prototype, otherwise they are treated as
+static and will not retain the value of the instance; they'll only have the value of the last set value.
+
 ## License
 
 Currently this is all private and not open for others to use, modify or fork. But I am open to suggestions if anyone does want to

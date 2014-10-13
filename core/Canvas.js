@@ -43,6 +43,7 @@ var Canvas = (function (ParentClass, isAbstract) {
 
 		// Create the stage
 		this.$stage = new createjs.Stage(_canvasId);
+		this.$stage.mouseEnabled = true;
 		this.$stage.enableDOMEvents(true); // allows clicks and other DOM related events to filter into the DisplayObjects
 
 		// Set up a fps label
