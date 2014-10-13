@@ -13,20 +13,12 @@ var BallantynoCanvas = (function (ParentClass, isAbstract) {
 
 	/**
 	 * @constructor
-	 * Extend Constructor:
-	 *  - Checks to see if we are abstract
-	 *  - Calls parent (this passes scope through)
-	 *  - Executes our constructor code
+	 *
 	 */
-	function _BallantynoCanvas() {
-		/* Check Abstract-ness */
-		ClassVehicle.checkAbstract.call(this, _BallantynoCanvas);
+	function BallantynoCanvasConstructor() {
+		ParentClass.call(this); // super call
 
-		/* Super call */
-		ParentClass.call(this); // pass scope down to child class
-
-		/* Our Constructor implementation */
-		_setup.call(this);
+		_drawTickTacToeBoard.call(this);
 	}
 
 	/* ----- Public Variables ----- */
@@ -38,11 +30,22 @@ var BallantynoCanvas = (function (ParentClass, isAbstract) {
 	/* ----- Protected Methods ----- */
 
 	/* ----- Private Variables ----- */
-	function _setup() {
+
+	/* ----- Private Methods ----- */
+	function _drawTickTacToeBoard() {
 		this.$stage.addChild(new TickTacToeBoard(100,100));
 	}
 
-	/* ----- Private Methods ----- */
+	/**
+	 * Entry point into class. This method will only contain needed class-level checks.
+	 */
+	function _BallantynoCanvas() {
+		/* Check Abstract-ness */
+		ClassVehicle.checkAbstract.call(this, _BallantynoCanvas);
+
+		/* Call constructor */
+		BallantynoCanvasConstructor.apply(this, arguments);
+	}
 
 	/* Return the class, ready for a new ...() */
 	return _BallantynoCanvas;

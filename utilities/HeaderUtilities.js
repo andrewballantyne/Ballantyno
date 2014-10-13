@@ -7,10 +7,9 @@
 var HeaderUtilities = (function () {
 	/**
 	 * @constructor
-	 * Singleton Constructor:
-	 *  - Executes our constructor code
+	 *
 	 */
-	function _HeaderUtilities() {
+	function HeaderUtilitiesConstructor() {
 	}
 
 	/**
@@ -21,21 +20,25 @@ var HeaderUtilities = (function () {
 		// jQuery - General DOM Manipulation
 		JQUERY : 'http://code.jquery.com/jquery-2.1.1.min.js',
 
-			// Handlebars - For Dynamic Page Loading
-			HANDLEBARS : 'http://builds.handlebarsjs.com.s3.amazonaws.com/handlebars-v2.0.0.js',
+		// Handlebars - For Dynamic Page Loading
+		HANDLEBARS : 'http://builds.handlebarsjs.com.s3.amazonaws.com/handlebars-v2.0.0.js',
 
-			// CreateJs - Canvas API Library
-			CREATEJS : 'http://code.createjs.com/createjs-2013.12.12.min.js',
-			EASELJS : 'http://code.createjs.com/easeljs-0.7.1.min.js',
-			TWEENJS : 'http://code.createjs.com/tweenjs-0.5.1.min.js',
-			SOUNDJS : 'http://code.createjs.com/soundjs-0.5.2.min.js',
-			PRELOADJS : 'http://code.createjs.com/preloadjs-0.4.1.min.js'
+		// CreateJs - Canvas API Library
+		CREATEJS : 'http://code.createjs.com/createjs-2013.12.12.min.js',
+		EASELJS : 'http://code.createjs.com/easeljs-0.7.1.min.js',
+		TWEENJS : 'http://code.createjs.com/tweenjs-0.5.1.min.js',
+		SOUNDJS : 'http://code.createjs.com/soundjs-0.5.2.min.js',
+		PRELOADJS : 'http://code.createjs.com/preloadjs-0.4.1.min.js'
+
+		/* ----- Public Methods ----- */
 	};
 
 	/**
 	 * Includes. Include 'script' tags, 'link' tags, etc.
 	 */
 	_HeaderUtilities.prototype.include = {
+		/* ----- Public Variables ----- */
+
 		/* ----- Public Methods ----- */
 		/**
 		 * Include the latest jQuery library.
@@ -66,7 +69,7 @@ var HeaderUtilities = (function () {
 		 * @param url - The url to add
 		 */
 		script : function (url) {
-			if (HeaderUtilities.include._isIncluded(url)) return;
+			if (_isIncluded(url)) return;
 
 			// Create the script tag
 			var element = document.createElement('script');
@@ -76,7 +79,7 @@ var HeaderUtilities = (function () {
 			// Append to the header (just after the title tag)
 			document.getElementsByTagName('head')[0].insertBefore(element, document.getElementsByTagName('title')[0].nextSibling);
 
-			HeaderUtilities.include._alreadyIncluded.push(url);
+			_alreadyIncluded.push(url);
 		},
 
 		/**
@@ -87,7 +90,7 @@ var HeaderUtilities = (function () {
 		 * @param url - The url to add
 		 */
 		style : function (url) {
-			if (HeaderUtilities.include._isIncluded(url)) return;
+			if (_isIncluded(url)) return;
 
 			// Create the script tag
 			var element = document.createElement('link');
@@ -97,17 +100,25 @@ var HeaderUtilities = (function () {
 			// Append to the header (just after the title tag)
 			document.getElementsByTagName('head')[0].insertBefore(element, document.getElementsByTagName('title')[0].nextSibling);
 
-			HeaderUtilities.include._alreadyIncluded.push(url);
-		},
-
-		/* ----- Private Variables ----- */
-		_alreadyIncluded : [],
-
-			/* ----- Private Methods ----- */
-			_isIncluded : function (url) {
-			return HeaderUtilities.include._alreadyIncluded.indexOf(url) >= 0;
+			_alreadyIncluded.push(url);
 		}
 	};
+
+	/* ----- Private Variables ----- */
+	var _alreadyIncluded = [];
+
+	/* ----- Private Methods ----- */
+	function _isIncluded(url) {
+		return _alreadyIncluded.indexOf(url) >= 0;
+	}
+
+	/**
+	 * Entry point into class. This method will only contain needed class-level checks.
+	 */
+	function _HeaderUtilities() {
+		/* Call constructor */
+		HeaderUtilitiesConstructor.apply(this, arguments);
+	}
 
 	/* Executes a new and returns the, now singleton, object */
 	return new _HeaderUtilities();

@@ -13,19 +13,11 @@ var Canvas = (function (ParentClass, isAbstract) {
 
 	/**
 	 * @constructor
-	 * Extend Constructor:
-	 *  - Checks to see if we are abstract
-	 *  - Calls parent (this passes scope through)
-	 *  - Executes our constructor code
+	 *
 	 */
-	function _Canvas() {
-		/* Check Abstract-ness */
-		ClassVehicle.checkAbstract.call(this, _Canvas);
+	function CanvasConstructor() {
+		ParentClass.call(this, '<canvas></canvas>'); // super call
 
-		/* Super call */
-		ParentClass.call(this, '<canvas></canvas>'); // pass scope down to child class
-
-		/* Our Constructor implementation */
 		_setup.call(this);
 	}
 
@@ -39,6 +31,10 @@ var Canvas = (function (ParentClass, isAbstract) {
 	/* ----- Protected Methods ----- */
 
 	/* ----- Private Variables ----- */
+	var _canvasId = 'theCanvas';
+	var _fpsLabel = null;
+
+	/* ----- Private Methods ----- */
 	function _setup() {
 		// Configure the canvas
 		this.$me.prop('id', _canvasId);
@@ -59,12 +55,6 @@ var Canvas = (function (ParentClass, isAbstract) {
 		// Start a ticker that will update the stage
 		createjs.Ticker.addEventListener('tick', FunctionUtilities.callWithScope(_tick, this));
 	}
-
-	/* ----- Private Methods ----- */
-	var _canvasId = 'theCanvas';
-	var _fpsLabel = null;
-
-	/* ----- Protected Variables ----- */
 	function _tick(e) {
 		if (Log.debugMode) {
 			_fpsLabel.visible = true;
@@ -73,6 +63,17 @@ var Canvas = (function (ParentClass, isAbstract) {
 			_fpsLabel.visible = false;
 		}
 		this.$stage.update();
+	}
+
+	/**
+	 * Entry point into class. This method will only contain needed class-level checks.
+	 */
+	function _Canvas() {
+		/* Check Abstract-ness */
+		ClassVehicle.checkAbstract.call(this, _Canvas);
+
+		/* Call constructor */
+		CanvasConstructor.apply(this, arguments);
 	}
 
 	/* Return the class, ready for a new ...() */

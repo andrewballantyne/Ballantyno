@@ -7,10 +7,9 @@
 var TypeUtilities = (function () {
 	/**
 	 * @constructor
-	 * Singleton Constructor:
-	 *  - Executes our constructor code
+	 *
 	 */
-	function _TypeUtilities() {
+	function TypeUtilitiesConstructor() {
 	}
 
 	_TypeUtilities.prototype.valid = {
@@ -86,10 +85,22 @@ var TypeUtilities = (function () {
 			return equal;
 		},
 
+		/**
+		 * Is A Function?
+		 *
+		 * @param item {*} - The item to check
+		 * @returns {boolean} - True if the passed item is a function
+		 */
 		aFunction : function (item) {
 			return typeof item == 'function';
 		},
 
+		/**
+		 * Is An Event?
+		 *
+		 * @param event {*} - The item to check
+		 * @returns {boolean} - True if the passed item is an Event (regular or library)
+		 */
 		anEvent : function (event) {
 			return (
 				event instanceof Event ||			// Regular Event
@@ -98,6 +109,18 @@ var TypeUtilities = (function () {
 			);
 		}
 	};
+
+	/* ----- Private Variables ----- */
+
+	/* ----- Private Methods ----- */
+
+	/**
+	 * Entry point into class. This method will only contain needed class-level checks.
+	 */
+	function _TypeUtilities() {
+		/* Call constructor */
+		TypeUtilitiesConstructor.apply(this, arguments);
+	}
 
 	/* Executes a new and returns the, now singleton, object */
 	return new _TypeUtilities();

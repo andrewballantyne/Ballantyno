@@ -13,17 +13,14 @@ var PageNavigation = (function (isAbstract) {
 
 	/**
 	 * @constructor
-	 * Base Constructor:
-	 *  - Checks to see if we are abstract
-	 *  - Executes our constructor code
+	 *
+	 * @param mainDivId - The main div that encompasses the entire Index Page Navigation
 	 */
-	function _PageNavigation(mainDivId) {
-		/* Check Abstract-ness */
-		ClassVehicle.checkAbstract.call(this, _PageNavigation);
-
-		/* Our Constructor implementation */
+	function PageNavigationConstructor(mainDivId) {
 		_setup.call(this, mainDivId);
 	}
+
+	/* ----- Public Variables ----- */
 
 	/* ----- Protected Variables ----- */
 	_PageNavigation.prototype.$me = null;
@@ -59,7 +56,10 @@ var PageNavigation = (function (isAbstract) {
 		this.$openHandle.hide();
 	};
 
+	/* ----- Protected Methods ----- */
+
 	/* ----- Private Variables ----- */
+
 	/* ----- Private Methods ----- */
 	function _setup(mainDivId) {
 		this.$me = $('#' + mainDivId);
@@ -82,6 +82,18 @@ var PageNavigation = (function (isAbstract) {
 		} else {
 			this.show();
 		}
+	}
+
+
+	/**
+	 * Entry point into class. This method will only contain needed class-level checks.
+	 */
+	function _PageNavigation(mainDivId) {
+		/* Check Abstract-ness */
+		ClassVehicle.checkAbstract.call(this, _PageNavigation);
+
+		/* Call constructor */
+		PageNavigationConstructor.apply(this, arguments);
 	}
 
 	/* Return the class, ready for a new ...() */

@@ -14,22 +14,20 @@ var IndexPageNavigation = (function (ParentClass, isAbstract) {
 
 	/**
 	 * @constructor
-	 * Extend Constructor:
-	 *  - Checks to see if we are abstract
-	 *  - Calls parent (this passes scope through)
-	 *  - Executes our constructor code
+	 *
+	 * @param mainDivId - The main div that encompasses the entire Index Page Navigation
 	 */
-	function _IndexPageNavigation(mainDivID) {
-		/* Check Abstract-ness */
-		ClassVehicle.checkAbstract.call(this, _IndexPageNavigation);
+	function IndexPageNavigationConstructor(mainDivId) {
+		ParentClass.call(this, mainDivId); // super call
 
-		/* Super call */
-		ParentClass.call(this, mainDivID); // pass scope down to child class
-
-		/* Our Constructor implementation */
 		_setup.call(this);
 	}
 
+	/* ----- Public Variables ----- */
+
+	/* ----- Protected Variables ----- */
+
+	/* ----- Public Methods ----- */
 	/**
 	 * @override
 	 * Hides the Index Page Navigation.
@@ -47,6 +45,8 @@ var IndexPageNavigation = (function (ParentClass, isAbstract) {
 		ParentClass.prototype.show.call(this);
 		_logoContainer.show();
 	};
+
+	/* ----- Protected Methods ----- */
 
 	/* ----- Private Variables ----- */
 	var _canvas = null; /** @see BallantynoCanvas **/
@@ -94,6 +94,17 @@ var IndexPageNavigation = (function (ParentClass, isAbstract) {
 	function _configureOptionDefaults() {
 		_autoHideCheckbox = _optionList.find('#autoHideCheckbox');
 		_autoHideCheckbox.prop('checked', true);
+	}
+
+	/**
+	 * Entry point into class. This method will only contain needed class-level checks.
+	 */
+	function _IndexPageNavigation() {
+		/* Check Abstract-ness */
+		ClassVehicle.checkAbstract.call(this, _IndexPageNavigation);
+
+		/* Call constructor */
+		IndexPageNavigationConstructor.apply(this, arguments);
 	}
 
 	/* Return the class, ready for a new ...() */

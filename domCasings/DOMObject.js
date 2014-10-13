@@ -12,18 +12,11 @@ var DOMObject = (function (isAbstract) {
 
 	/**
 	 * @constructor
-	 * Base Constructor:
-	 *  - Checks to see if we are abstract
-	 *  - Executes our constructor code
 	 *
 	 * @param domIdOrTag {string} - The id or full tag (<div id="myId"></div>) that corresponds to the DOM element that you wish
 	 *  to encompass.
 	 */
-	function _DOMObject(domIdOrTag) {
-		/* Check Abstract-ness */
-		ClassVehicle.checkAbstract.call(this, _DOMObject);
-
-		/* Our Constructor implementation */
+	function DOMObjectConstructor(domIdOrTag) {
 		_setup.call(this, domIdOrTag);
 	}
 
@@ -81,6 +74,17 @@ var DOMObject = (function (isAbstract) {
 		$(document.body).append(this.$me);
 
 		_rendered = true;
+	}
+
+	/**
+	 * Entry point into class. This method will only contain needed class-level checks.
+	 */
+	function _DOMObject() {
+		/* Check Abstract-ness */
+		ClassVehicle.checkAbstract.call(this, _DOMObject);
+
+		/* Call constructor */
+		DOMObjectConstructor.apply(this, arguments);
 	}
 
 	/* Return the class, ready for a new ...() */

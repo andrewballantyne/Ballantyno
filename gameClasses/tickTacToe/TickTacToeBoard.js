@@ -13,23 +13,38 @@ var TickTacToeBoard = (function (ParentClass, isAbstract) {
 
 	/**
 	 * @constructor
-	 * Extend Constructor:
-	 *  - Checks to see if we are abstract
-	 *  - Calls parent (this passes scope through)
-	 *  - Executes our constructor code
 	 *
 	 * @param width - The width of the board
-	 * @param height - The height of the board
+	 * @param height - The height of the board* @constructor
+	 */
+	function TickTacToeBoardConstructor(width, height) {
+		ParentClass.call(this); // super call
+
+		/* Our Constructor implementation */
+		this.graphics.beginFill('black').drawRect(0, 0, width, height);
+	}
+
+	/* ----- Public Variables ----- */
+
+	/* ----- Protected Variables ----- */
+
+	/* ----- Public Methods ----- */
+
+	/* ----- Protected Methods ----- */
+
+	/* ----- Private Variables ----- */
+
+	/* ----- Private Methods ----- */
+
+	/**
+	 * Entry point into class. This method will only contain needed class-level checks.
 	 */
 	function _TickTacToeBoard(width, height) {
 		/* Check Abstract-ness */
 		ClassVehicle.checkAbstract.call(this, _TickTacToeBoard);
 
-		/* Super call */
-		ParentClass.call(this); // pass scope down to child class
-
-		/* Our Constructor implementation */
-		this.graphics.beginFill('black').drawRect(0, 0, width, height);
+		/* Call constructor */
+		TickTacToeBoardConstructor.apply(this, arguments);
 	}
 
 	/* Return the class, ready for a new ...() */

@@ -8,12 +8,7 @@
  * @requires TypeUtilities  (/utilities/TypeUtilities.js)
  */
 var Log = (function () {
-	/**
-	 * @constructor
-	 * Singleton Constructor:
-	 *  - Executes our constructor code
-	 */
-	function _Log() {
+	function LogConstructor() {
 	}
 
 	/* ----- Public Variables ----- */
@@ -26,6 +21,8 @@ var Log = (function () {
 	 * A useful boolean to check if at any point in time it is okay to use debug-level testing/printing/coding in general.
 	 */
 	_Log.prototype.debugMode = true;
+
+	/* ----- Protected Variables ----- */
 
 	/* ----- Public Methods ----- */
 	/**
@@ -140,6 +137,8 @@ var Log = (function () {
 //		$('#' + 'MainSiteContact').hide();
 	};
 
+	/* ----- Protected Methods ----- */
+
 	/* ----- Private Variables ----- */
 	var _ALL_TYPES = [_Log.prototype.TYPE_ALL, _Log.prototype.TYPE_LOG, _Log.prototype.TYPE_WARN, _Log.prototype.TYPE_ERROR];
 
@@ -177,8 +176,8 @@ var Log = (function () {
 		 */
 		return (
 			_manipulationState == _THROTTLING_UP_STATE ||
-			(_logLevel >= neededLogSetting && _manipulationState != _SILENCE_STATE)
-		);
+				(_logLevel >= neededLogSetting && _manipulationState != _SILENCE_STATE)
+			);
 	}
 	function _getMethodName(methodType) {
 		var methodName = 'console.';
@@ -232,6 +231,13 @@ var Log = (function () {
 				callbacks[j](params[0], methodType);
 			}
 		}
+	}
+
+	/**
+	 * Entry point into class. This method will only contain needed class-level checks.
+	 */
+	function _Log() {
+		LogConstructor.apply(this, arguments);
 	}
 
 	/* Executes a new and returns the, now singleton, object */

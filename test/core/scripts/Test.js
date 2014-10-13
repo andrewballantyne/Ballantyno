@@ -17,11 +17,7 @@ var Test = (function (isAbstract) {
 	 * @param testNumber {Number} - An id for the test
 	 * @param testTitle {string} - A title for the test
 	 */
-	function _Test(testNumber, testTitle) {
-		/* Check Abstract-ness */
-		ClassVehicle.checkAbstract.call(this, _Test);
-
-		/* Our Constructor implementation */
+	function TestConstructor(testNumber, testTitle) {
 		_ts = Date.now();
 
 		_testNumber = testNumber;
@@ -48,6 +44,8 @@ var Test = (function (isAbstract) {
 		warns : [],
 		errors : []
 	};
+
+	/* ----- Protected Variables ----- */
 
 	/* ----- Public Methods ----- */
 	/**
@@ -221,16 +219,29 @@ var Test = (function (isAbstract) {
 		this.consolePrints.errors.push(msg);
 	};
 
+	/* ----- Protected Methods ----- */
+
 	/* ----- Private Variables ----- */
 	var _ts = 0; // timeStamp (for duration of test)
 	var _testNumber = -1;
 	var _testTitle = "";
 	var _asserts = {
 		successes : [],
-			fails : []
+		fails : []
 	};
 
 	/* ----- Private Methods ----- */
+
+	/**
+	 * Entry point into class. This method will only contain needed class-level checks.
+	 */
+	function _Test() {
+		/* Check Abstract-ness */
+		ClassVehicle.checkAbstract.call(this, _Test);
+
+		/* Call constructor */
+		TestConstructor.apply(this, arguments);
+	}
 
 	/* Return the class, ready for a new ...() */
 	return _Test;

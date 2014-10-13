@@ -7,12 +7,14 @@
 var FunctionUtilities = (function () {
 	/**
 	 * @constructor
-	 * Singleton Constructor:
-	 *  - Executes our constructor code
+	 *
 	 */
-	function _FunctionUtilities() {
+	function FunctionUtilitiesConstructor() {
 	}
 
+	/* ----- Public Variables ----- */
+
+	/* ----- Public Methods ----- */
 	/**
 	 * Calls the passed method with the passed scope. Useful for 'on' handlers.
 	 *
@@ -25,6 +27,18 @@ var FunctionUtilities = (function () {
 			method.apply(scope, arguments);
 		};
 	};
+
+	/* ----- Private Variables ----- */
+
+	/* ----- Private Methods ----- */
+
+	/**
+	 * Entry point into class. This method will only contain needed class-level checks.
+	 */
+	function _FunctionUtilities() {
+		/* Call constructor */
+		FunctionUtilitiesConstructor.apply(this, arguments);
+	}
 
 	/* Executes a new and returns the, now singleton, object */
 	return new _FunctionUtilities();

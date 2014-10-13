@@ -3,16 +3,13 @@
  * > Used as a Utility Singleton to help setup classes for extending and any other class-based functionality.
  *
  * Created by Andrew on 12/10/14.
- *
- * @requires ...
  */
 var ClassVehicle = (function () {
 	/**
 	 * @constructor
-	 * Singleton Constructor:
-	 *  - Executes our constructor code
+	 *
 	 */
-	function _ClassVehicle() {
+	function ClassVehicleConstructor() {
 		/* Stats on usage */
 		this.baseCount = 0;
 		this.extendCount = 0;
@@ -83,6 +80,13 @@ var ClassVehicle = (function () {
 		BaseClass.prototype.isAbstract = isAbstract;
 	}
 
+
+	/**
+	 * Entry point into class. This method will only contain needed class-level checks.
+	 */
+	function _ClassVehicle() {
+		ClassVehicleConstructor.apply(this, arguments);
+	}
 
 	/* Executes a new and returns the, now singleton, object */
 	return new _ClassVehicle();

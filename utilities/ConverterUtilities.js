@@ -7,16 +7,17 @@
 var ConverterUtilities = (function () {
 	/**
 	 * @constructor
-	 * Singleton Constructor:
-	 *  - Executes our constructor code
+	 *
 	 */
-	function _ConverterUtilities() {
+	function ConverterUtilitiesConstructor() {
 	}
 
 	/**
 	 * Helper methods for an eval() call.
 	 */
 	_ConverterUtilities.prototype.eval = {
+		/* ----- Public Variables ----- */
+
 		/* ----- Public Methods ----- */
 		/**
 		 * Converts the passed item for a "string" addition to an eval param.
@@ -89,6 +90,9 @@ var ConverterUtilities = (function () {
 	 * Helper methods for stripping a string of characters.
 	 */
 	_ConverterUtilities.prototype.strip = {
+		/* ----- Public Variables ----- */
+
+		/* ----- Public Methods ----- */
 		/**
 		 * Strips a provided string for being used as an ID.
 		 *
@@ -124,6 +128,18 @@ var ConverterUtilities = (function () {
 			return string.replace(/ /, "");
 		}
 	};
+
+	/* ----- Private Variables ----- */
+
+	/* ----- Private Methods ----- */
+
+	/**
+	 * Entry point into class. This method will only contain needed class-level checks.
+	 */
+	function _ConverterUtilities() {
+		/* Call constructor */
+		ConverterUtilitiesConstructor.apply(this, arguments);
+	}
 
 	/* Executes a new and returns the, now singleton, object */
 	return new _ConverterUtilities();
