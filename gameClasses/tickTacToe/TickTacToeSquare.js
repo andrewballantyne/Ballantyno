@@ -17,10 +17,10 @@ var TickTacToeSquare = (function (ParentClass, isAbstract) {
 	function TickTacToeSquareConstructor(xPos, yPos, squareDimensions, theBoard) {
 		ParentClass.call(this);
 
-		_theBoard = theBoard;
-		_xPos = xPos;
-		_yPos = yPos;
-		_dimensions = squareDimensions;
+		this._theBoard = theBoard;
+		this._xPos = xPos;
+		this._yPos = yPos;
+		this._dimensions = squareDimensions;
 
 		_setupSquare.call(this);
 	}
@@ -34,35 +34,35 @@ var TickTacToeSquare = (function (ParentClass, isAbstract) {
 	/* ----- Protected Methods ----- */
 
 	/* ----- Private Variables ----- */
-	var _theBoard = null;
-	var _xPos = -1;
-	var _yPos = -1;
-	var _dimensions = {
+	_TickTacToeSquare.prototype._theBoard = null;
+	_TickTacToeSquare.prototype._xPos = -1;
+	_TickTacToeSquare.prototype._yPos = -1;
+	_TickTacToeSquare.prototype._dimensions = {
 		width: 0,
 		height: 0
 	};
-	var _text = null;
+	_TickTacToeSquare.prototype._text = null;
 
 	/* ----- Private Methods ----- */
 	function _setupSquare() {
 		// Draw a square, so it can be clicked on
 		var bg = new createjs.Shape();
-		bg.graphics.beginFill('#fff').drawRect(0, 0, _dimensions.width, _dimensions.height);
+		bg.graphics.beginFill('#fff').drawRect(0, 0, this._dimensions.width, this._dimensions.height);
 		this.addChild(bg);
 
-		_text = new createjs.Text(_xPos, 'Bold 60px Arial', 'Red');
+		this._text = new createjs.Text('', 'Bold 60px Arial', 'Red');
 
-		this.addChild(_text);
+		this.addChild(this._text);
 
 		// Setup the click
 		this.on('click', FunctionUtilities.callWithScope(_onClick, this));
 	}
 	function _onClick() {
-		var player = _theBoard.currentPlayer();
+		var player = this._theBoard.currentPlayer();
 
-		_text.text = player.symbol;
-		_text.x = _dimensions.width / 2 - _text.getMeasuredWidth() / 2;
-		_text.y = _dimensions.height / 2 - _text.getMeasuredHeight() / 2;
+		this._text.text = player.symbol;
+		this._text.x = this._dimensions.width / 2 - this._text.getMeasuredWidth() / 2;
+		this._text.y = this._dimensions.height / 2 - this._text.getMeasuredHeight() / 2;
 	}
 
 	/**

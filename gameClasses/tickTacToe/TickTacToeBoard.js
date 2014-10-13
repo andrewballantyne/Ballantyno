@@ -35,27 +35,27 @@ var TickTacToeBoard = (function (ParentClass, isAbstract) {
 
 	/* ----- Public Methods ----- */
 	_TickTacToeBoard.prototype.currentPlayer = function () {
-		if (_currentPlayer == null) _currentPlayer = _X_PLAYER;
-		else if (_currentPlayer == _X_PLAYER) _currentPlayer = _O_PLAYER;
-		else if (_currentPlayer == _O_PLAYER) _currentPlayer = _X_PLAYER;
-		return _currentPlayer;
+		if (this._currentPlayer == null) this._currentPlayer = this._X_PLAYER;
+		else if (this._currentPlayer == this._X_PLAYER) this._currentPlayer = this._O_PLAYER;
+		else if (this._currentPlayer == this._O_PLAYER) this._currentPlayer = this._X_PLAYER;
+		return this._currentPlayer;
 	};
 
 	/* ----- Protected Methods ----- */
 
 	/* ----- Private Variables ----- */
-	var _X_PLAYER = new TickTacToePlayer('X');
-	var _O_PLAYER = new TickTacToePlayer('O');
+	_TickTacToeBoard.prototype._X_PLAYER = new TickTacToePlayer('X');
+	_TickTacToeBoard.prototype._O_PLAYER = new TickTacToePlayer('O');
 
-	var _currentPlayer = null;
-	var _lineCapRadius = 5;
-	var _lineWidth = 5;
-	var _lineHeight = 5;
-	var _aClickSquare = {
+	_TickTacToeBoard.prototype._currentPlayer = null;
+	_TickTacToeBoard.prototype._lineCapRadius = 5;
+	_TickTacToeBoard.prototype._lineWidth = 5;
+	_TickTacToeBoard.prototype._lineHeight = 5;
+	_TickTacToeBoard.prototype._aClickSquare = {
 		width : 0,
 		height : 0
 	};
-	var _squares = {
+	_TickTacToeBoard.prototype._squares = {
 		0 : { 			// top row
 			0 : null,		// top, left
 			1 : null,		// top, center
@@ -83,20 +83,44 @@ var TickTacToeBoard = (function (ParentClass, isAbstract) {
 		// ---+---+--- 2/3
 		//    |   |
 		//            -3/3
-		_aClickSquare.width = (this.width - _lineWidth*3) / 3;
-		_aClickSquare.height = (this.height - _lineHeight*3) / 3;
+		this._aClickSquare.width = (this.width - this._lineWidth*3) / 3;
+		this._aClickSquare.height = (this.height - this._lineHeight*3) / 3;
 
 		gridLines.graphics.beginFill('black');
 
 		// first vertical
-		gridLines.graphics.drawRoundRect(_aClickSquare.width, 0, _lineWidth, this.height, _lineCapRadius);
+		gridLines.graphics.drawRoundRect(
+			this._aClickSquare.width,
+			0,
+			this._lineWidth,
+			this.height,
+			this._lineCapRadius
+		);
 		// second vertical
-		gridLines.graphics.drawRoundRect(_aClickSquare.width * 2 + _lineWidth, 0, _lineWidth, this.height, _lineCapRadius);
+		gridLines.graphics.drawRoundRect(
+			this._aClickSquare.width * 2 + this._lineWidth,
+			0,
+			this._lineWidth,
+			this.height,
+			this._lineCapRadius
+		);
 
 		// first horizontal
-		gridLines.graphics.drawRoundRect(0, _aClickSquare.height, this.width, _lineHeight, _lineCapRadius);
+		gridLines.graphics.drawRoundRect(
+			0,
+			this._aClickSquare.height,
+			this.width,
+			this._lineHeight,
+			this._lineCapRadius
+		);
 		// second horizontal
-		gridLines.graphics.drawRoundRect(0, _aClickSquare.height * 2 + _lineHeight, this.width, _lineHeight, _lineCapRadius);
+		gridLines.graphics.drawRoundRect(
+			0,
+			this._aClickSquare.height * 2 + this._lineHeight,
+			this.width,
+			this._lineHeight,
+			this._lineCapRadius
+		);
 
 		this.addChild(gridLines);
 	}
@@ -104,12 +128,12 @@ var TickTacToeBoard = (function (ParentClass, isAbstract) {
 		var SQUARE_COUNT = 3;
 		for (var h = 0; h < SQUARE_COUNT; h++) {
 			for (var v = 0; v < SQUARE_COUNT; v++) {
-				var square = new TickTacToeSquare(h, v, _aClickSquare, this);
-				square.x = _aClickSquare.width * h + _lineWidth * h;
-				square.y = _aClickSquare.height * v + _lineHeight * v;
+				var square = new TickTacToeSquare(h, v, this._aClickSquare, this);
+				square.x = this._aClickSquare.width * h + this._lineWidth * h;
+				square.y = this._aClickSquare.height * v + this._lineHeight * v;
 
 				this.addChild(square);
-				_squares[h][v] = square;
+				this._squares[h][v] = square;
 			}
 		}
 	}

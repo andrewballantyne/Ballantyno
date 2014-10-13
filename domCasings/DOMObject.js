@@ -30,7 +30,7 @@ var DOMObject = (function (isAbstract) {
 	 * Shows the DOM Element that this DOM Object encases.
 	 */
 	_DOMObject.prototype.show = function () {
-		if (!_rendered) return;
+		if (!this._rendered) return;
 
 		this.$me.show();
 	};
@@ -39,7 +39,7 @@ var DOMObject = (function (isAbstract) {
 	 * Hides the DOM Element that this DOM Object encases.
 	 */
 	_DOMObject.prototype.hide = function () {
-		if (!_rendered) return;
+		if (!this._rendered) return;
 
 		this.$me.hide();
 	};
@@ -59,13 +59,13 @@ var DOMObject = (function (isAbstract) {
 	 * @returns {boolean} - True if it has been; false if it has not yet been rendered to the DOM
 	 */
 	_DOMObject.prototype.isRendered = function () {
-		return _rendered;
+		return this._rendered;
 	};
 
 	/* ----- Protected Methods ----- */
 
 	/* ----- Private Variables ----- */
-	var _rendered = false;
+	_DOMObject.prototype._rendered = false;
 
 	/* ----- Private Methods ----- */
 	function _setup(domId) {
@@ -73,7 +73,7 @@ var DOMObject = (function (isAbstract) {
 
 		$(document.body).append(this.$me);
 
-		_rendered = true;
+		this._rendered = true;
 	}
 
 	/**

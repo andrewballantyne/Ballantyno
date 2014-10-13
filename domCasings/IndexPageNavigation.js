@@ -33,7 +33,7 @@ var IndexPageNavigation = (function (ParentClass, isAbstract) {
 	 * Hides the Index Page Navigation.
 	 */
 	_IndexPageNavigation.prototype.hide = function () {
-		_logoContainer.hide();
+		this._logoContainer.hide();
 		ParentClass.prototype.hide.call(this);
 	};
 
@@ -43,24 +43,24 @@ var IndexPageNavigation = (function (ParentClass, isAbstract) {
 	 */
 	_IndexPageNavigation.prototype.show = function () {
 		ParentClass.prototype.show.call(this);
-		_logoContainer.show();
+		this._logoContainer.show();
 	};
 
 	/* ----- Protected Methods ----- */
 
 	/* ----- Private Variables ----- */
-	var _canvas = null; /** @see BallantynoCanvas **/
-	var _logoContainer = null;
-	var _options = null;
-	var _optionList = null;
-	var _autoHideCheckbox = null;
+	_IndexPageNavigation.prototype._canvas = null; /** @see BallantynoCanvas **/
+	_IndexPageNavigation.prototype._logoContainer = null;
+	_IndexPageNavigation.prototype._options = null;
+	_IndexPageNavigation.prototype._optionList = null;
+	_IndexPageNavigation.prototype._autoHideCheckbox = null;
 
 	/* ----- Private Methods ----- */
 	function _setup() {
-		_logoContainer = this.$me.find('.logoContainer');
+		this._logoContainer = this.$me.find('.logoContainer');
 
-		_options = this.$panel.find('.options');
-		_optionList = _options.find('.optionItem');
+		this._options = this.$panel.find('.options');
+		this._optionList = this._options.find('.optionItem');
 
 		_configureActionOnClicks.call(this);
 		_configureOptionDefaults.call(this);
@@ -68,7 +68,7 @@ var IndexPageNavigation = (function (ParentClass, isAbstract) {
 	function _configureActionOnClicks() {
 		// Set up all the clicks to validate against the options
 		this.$actions.find('a').not('#clearScreen').on('click', FunctionUtilities.callWithScope(function (e) {
-			if (_autoHideCheckbox.prop('checked')) {
+			if (this._autoHideCheckbox.prop('checked')) {
 				this.hide();
 			}
 		}, this));
@@ -78,8 +78,8 @@ var IndexPageNavigation = (function (ParentClass, isAbstract) {
 			if (TestMethodAPI.isRendered())
 				TestMethodAPI.hide();
 
-			if (_canvas != null && _canvas.isVisible())
-				_canvas.hide();
+			if (this._canvas != null && this._canvas.isVisible())
+				this._canvas.hide();
 		}, this));
 		this.$actions.find('#runTests').on('click', FunctionUtilities.callWithScope(function (e) {
 			if (TestMethodAPI.isRendered())
@@ -88,12 +88,12 @@ var IndexPageNavigation = (function (ParentClass, isAbstract) {
 				HeaderUtilities.include.script('test/classTests/testInit.js');
 		}, this));
 		this.$actions.find('#showLobby').on('click', FunctionUtilities.callWithScope(function (e) {
-			_canvas = new BallantynoCanvas();
+			this._canvas = new BallantynoCanvas();
 		}, this));
 	}
 	function _configureOptionDefaults() {
-		_autoHideCheckbox = _optionList.find('#autoHideCheckbox');
-		_autoHideCheckbox.prop('checked', true);
+		this._autoHideCheckbox = this._optionList.find('#autoHideCheckbox');
+		this._autoHideCheckbox.prop('checked', true);
 	}
 
 	/**
