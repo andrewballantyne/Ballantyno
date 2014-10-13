@@ -1,30 +1,41 @@
 /**
- * Created by Andrew on 10/09/14.
+ * HeaderUtilities (Singleton)
+ *  > Manages any functionality around adding tags to the DOM head tag.
+ *
+ * Created by Andrew on 12/10/14.
  */
-var HeaderUtilities = {
+var HeaderUtilities = (function () {
+	/**
+	 * @constructor
+	 * Singleton Constructor:
+	 *  - Executes our constructor code
+	 */
+	function _HeaderUtilities() {
+	}
+
 	/**
 	 * External Libraries.
 	 */
-	externals : {
+	_HeaderUtilities.prototype.externals = {
 		/* ----- Public Variables ----- */
 		// jQuery - General DOM Manipulation
 		JQUERY : 'http://code.jquery.com/jquery-2.1.1.min.js',
 
-		// Handlebars - For Dynamic Page Loading
-		HANDLEBARS : 'http://builds.handlebarsjs.com.s3.amazonaws.com/handlebars-v2.0.0.js',
+			// Handlebars - For Dynamic Page Loading
+			HANDLEBARS : 'http://builds.handlebarsjs.com.s3.amazonaws.com/handlebars-v2.0.0.js',
 
-		// CreateJs - Canvas API Library
-		CREATEJS : 'http://code.createjs.com/createjs-2013.12.12.min.js',
-		EASELJS : 'http://code.createjs.com/easeljs-0.7.1.min.js',
-		TWEENJS : 'http://code.createjs.com/tweenjs-0.5.1.min.js',
-		SOUNDJS : 'http://code.createjs.com/soundjs-0.5.2.min.js',
-		PRELOADJS : 'http://code.createjs.com/preloadjs-0.4.1.min.js'
-	},
+			// CreateJs - Canvas API Library
+			CREATEJS : 'http://code.createjs.com/createjs-2013.12.12.min.js',
+			EASELJS : 'http://code.createjs.com/easeljs-0.7.1.min.js',
+			TWEENJS : 'http://code.createjs.com/tweenjs-0.5.1.min.js',
+			SOUNDJS : 'http://code.createjs.com/soundjs-0.5.2.min.js',
+			PRELOADJS : 'http://code.createjs.com/preloadjs-0.4.1.min.js'
+	};
 
 	/**
 	 * Includes. Include 'script' tags, 'link' tags, etc.
 	 */
-	include : {
+	_HeaderUtilities.prototype.include = {
 		/* ----- Public Methods ----- */
 		/**
 		 * Include the latest jQuery library.
@@ -44,7 +55,7 @@ var HeaderUtilities = {
 		 * Include the desired createjs libraries (Easel, Tween, Sound, and/or Preload).
 		 */
 		createjs : function () {
-			HeaderUtilities.include.script(HeaderUtilities.externals.EASELJS);
+			HeaderUtilities.include.script(HeaderUtilities.externals.CREATEJS);
 		},
 
 		/**
@@ -92,9 +103,12 @@ var HeaderUtilities = {
 		/* ----- Private Variables ----- */
 		_alreadyIncluded : [],
 
-		/* ----- Private Methods ----- */
-		_isIncluded : function (url) {
+			/* ----- Private Methods ----- */
+			_isIncluded : function (url) {
 			return HeaderUtilities.include._alreadyIncluded.indexOf(url) >= 0;
 		}
-	}
-};
+	};
+
+	/* Executes a new and returns the, now singleton, object */
+	return new _HeaderUtilities();
+})();

@@ -1,7 +1,18 @@
 /**
- * Created by Andrew on 04/10/14.
+ * FunctionUtilities (Singleton)
+ *  > Manages all functionality that is in and around a function; including calling a function with scope.
+ *
+ * Created by Andrew on 12/10/14.
  */
-var FunctionUtilities = {
+var FunctionUtilities = (function () {
+	/**
+	 * @constructor
+	 * Singleton Constructor:
+	 *  - Executes our constructor code
+	 */
+	function _FunctionUtilities() {
+	}
+
 	/**
 	 * Calls the passed method with the passed scope. Useful for 'on' handlers.
 	 *
@@ -9,26 +20,12 @@ var FunctionUtilities = {
 	 * @param scope {*} - The scope you want to call the method with (usually 'this')
 	 * @returns {Function} - The listener that will retain scope
 	 */
-	callWithScope : function (method, scope) {
+	_FunctionUtilities.prototype.callWithScope = function (method, scope) {
 		return function () {
-			var event = (TypeUtilities.is.anEvent(arguments[0])) ? arguments[0] : null;
-			var argumentOffset = 0;
-			if (event != null)
-				argumentOffset = 1;
-
-			if (arguments.length > argumentOffset) {
-				// We have arguments (skipping past the event if applicable)
-				var evalStatement = 'method.call(scope';
-				for (var i = argumentOffset; i < arguments.length; i++) {
-					evalStatement += ',' + ConverterUtilities.eval.thisItem(arguments[i]);
-				}
-				evalStatement += ')';
-
-				eval(evalStatement);
-			} else {
-				// No arguments, lets just straight up call the method
-				method.call(scope, event);
-			}
+			method.apply(scope, arguments);
 		};
-	}
-};
+	};
+
+	/* Executes a new and returns the, now singleton, object */
+	return new _FunctionUtilities();
+})();

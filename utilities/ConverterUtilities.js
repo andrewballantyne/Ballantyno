@@ -1,17 +1,22 @@
 /**
- * Created by Andrew on 07/09/14.
+ * ConverterUtilities (Singleton)
+ *  > Manages conversions between one thing and another (will strip out spaces, backets, or setup a param to be used in an eval)
  *
- * A Stand Alone Utility Class.
- *
- * Features:
- *  - eval() support functions
- *  - strip support (removal of spaces and any other characters)
+ * Created by Andrew on 12/10/14.
  */
-var ConverterUtilities = {
+var ConverterUtilities = (function () {
+	/**
+	 * @constructor
+	 * Singleton Constructor:
+	 *  - Executes our constructor code
+	 */
+	function _ConverterUtilities() {
+	}
+
 	/**
 	 * Helper methods for an eval() call.
 	 */
-	eval : {
+	_ConverterUtilities.prototype.eval = {
 		/* ----- Public Methods ----- */
 		/**
 		 * Converts the passed item for a "string" addition to an eval param.
@@ -72,18 +77,18 @@ var ConverterUtilities = {
 				returnString += key + ": " + object[key] + ",";
 			}
 			if (returnString.length > 1)
-				// We are more than just '{', remove the trailing comma
+			// We are more than just '{', remove the trailing comma
 				returnString = returnString.substr(0, returnString.length - 1);
 			returnString += "}";
 
 			return returnString;
 		}
-	},
+	};
 
 	/**
 	 * Helper methods for stripping a string of characters.
 	 */
-	strip : {
+	_ConverterUtilities.prototype.strip = {
 		/**
 		 * Strips a provided string for being used as an ID.
 		 *
@@ -118,5 +123,8 @@ var ConverterUtilities = {
 		spaces : function (string) {
 			return string.replace(/ /, "");
 		}
-	}
-};
+	};
+
+	/* Executes a new and returns the, now singleton, object */
+	return new _ConverterUtilities();
+})();

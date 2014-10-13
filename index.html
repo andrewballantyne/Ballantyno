@@ -3,32 +3,39 @@
 <head>
 	<title>Ballantyno - Andrew Ballantyne's JavaScript Fiddles</title>
 
+	<!-- Include Utility -->
 	<script type="text/javascript" src="utilities/HeaderUtilities.js"></script>
 
 	<!-- Include External Libraries -->
+	<script type="text/javascript" src="http://code.createjs.com/createjs-2013.12.12.min.js"></script>
 	<script type="text/javascript">
-		// Include any external libraries
 		HeaderUtilities.include.jQuery();
-		HeaderUtilities.include.createjs();
 	</script>
+
+	<!-- Class Factory -->
+	<script type="text/javascript" src="core/ClassVehicle.js"></script>
+
+	<!-- Needed to append first : They are parents to classes below -->
+	<script type="text/javascript" src="domCasings/DOMObject.js"></script>
 
 	<!-- Stand Alone Utilities -->
 	<script type="text/javascript" src="utilities/ConverterUtilities.js"></script>
 	<script type="text/javascript" src="utilities/FunctionUtilities.js"></script>
 	<script type="text/javascript" src="utilities/TypeUtilities.js"></script>
 
-	<!-- Core Classes -->
-	<script type="text/javascript" src="core/ClassVehicle.js"></script>
-	<script type="text/javascript" src="core/DOMObject.js"></script>
-	<script type="text/javascript" src="core/Canvas.js"></script>
-	<script type="text/javascript" src="core/BallantynoCanvas.js"></script>
-
 	<!-- Singletons -->
 	<script type="text/javascript" src="singletons/Log.js"></script>
+
+	<!-- Core Classes -->
+	<script type="text/javascript" src="core/Canvas.js"></script>
+	<script type="text/javascript" src="core/BallantynoCanvas.js"></script>
 
 	<!-- DomCasings -->
 	<script type="text/javascript" src="domCasings/PageNavigation.js"></script>
 	<script type="text/javascript" src="domCasings/IndexPageNavigation.js"></script>
+
+	<!-- Tick Tac Toe Classes -->
+	<script type="text/javascript" src="gameClasses/tickTacToe/TickTacToeBoard.js"></script>
 
 	<!-- Testing Classes -->
 	<script type="text/javascript" src="test/core/TestMethodAPI.js"></script>
@@ -50,7 +57,7 @@
 		<div class="handle openState"></div>
 		<div class="actions">
 			<a href="javascript:void(0);" id="clearScreen" class="mainAction link first">Clear</a>
-			<a href="javascript:void(0);" id="runTests" class="mainAction link">Run Tests</a>
+			<!--<a href="javascript:void(0);" id="runTests" class="mainAction link">Run Tests</a>-->
 			<a href="javascript:void(0);" id="showLobby" class="mainAction link">Game Lobby</a>
 		</div>
 		<div class="options">

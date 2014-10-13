@@ -1,7 +1,8 @@
 /**
- * Created by Andrew on 08/09/14.
+ * TestMethodAPI (Singleton)
+ *  > A Testing Framework that allows you to watch and listen to various parts of method usage. Including listening for Log prints.
  *
- * A home-grown testing framework that will create a DOM report (if so desired).
+ * Created by Andrew on 12/10/14.
  *
  * @requires Test (./scripts/Test.js)
  * @requires Log (/singletons/Log.js)
@@ -10,8 +11,14 @@
  * @requires jQuery (/utilities/HeaderUtilities.include.jQuery())
  */
 var TestMethodAPI = (function () {
+	/**
+	 * @constructor
+	 * Singleton Constructor:
+	 *  - Executes our constructor code
+	 */
 	function _TestMethodAPI() {
 	}
+
 	_TestMethodAPI.prototype = {
 		/* ----- Public Variables ----- */
 
@@ -448,5 +455,6 @@ var TestMethodAPI = (function () {
 		}
 	};
 
+	/* Executes a new and returns the, now singleton, object */
 	return new _TestMethodAPI();
 })();

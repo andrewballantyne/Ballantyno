@@ -1,12 +1,80 @@
 /**
- * Created by Andrew on 05/10/14.
+ * Canvas extends DOMObject
+ *  > The First Level to the Canvas tag. This class will own and control setting up the Stage and preparing the canvas for rendering.
+ *
+ * Created by Andrew on 12/10/14.
+ *
+ * @requires ClassVehicle
+ * @extends DOMObject
  */
-var Canvas = ClassVehicle.extendClass(DOMObject, true, {
-	constructor : function () {
-		this.super.constructor.call(this, '<canvas></canvas>');
+var Canvas = (function (ParentClass, isAbstract) {
+	/* Setup Extend Link and Setup Class Defaults */
+	ClassVehicle.setupClassExtend(_Canvas, ParentClass, isAbstract);
 
-		this._me.prop('id', 'theCanvas');
-		this._me.prop('width', $(window).width() * .8);
-		this._me.prop('height', $(window).height() * .8);
+	/**
+	 * @constructor
+	 * Extend Constructor:
+	 *  - Checks to see if we are abstract
+	 *  - Calls parent (this passes scope through)
+	 *  - Executes our constructor code
+	 */
+	function _Canvas() {
+		/* Check Abstract-ness */
+		ClassVehicle.checkAbstract.call(this, _Canvas);
+
+		/* Super call */
+		ParentClass.call(this, '<canvas></canvas>'); // pass scope down to child class
+
+		/* Our Constructor implementation */
+		_setup.call(this);
 	}
-});
+
+	/* ----- Public Variables ----- */
+
+	/* ----- Protected Variables ----- */
+	_Canvas.prototype.$stage = null;
+
+	/* ----- Public Methods ----- */
+
+	/* ----- Protected Methods ----- */
+
+	/* ----- Private Variables ----- */
+	function _setup() {
+		// Configure the canvas
+		this.$me.prop('id', _canvasId);
+		this.$me.prop('width', $(window).width() * .8);
+		this.$me.prop('height', $(window).height() * .8);
+
+		// Create the stage
+		this.$stage = new createjs.Stage(_canvasId);
+		this.$stage.enableDOMEvents(true); // allows clicks and other DOM related events to filter into the DisplayObjects
+
+		// Set up a fps label
+		_fpsLabel = new createjs.Text("0 FPS", "Bold 12px Arial", "black");
+		_fpsLabel.x = this.$me.width() - 5;
+		_fpsLabel.y = 5;
+		_fpsLabel.textAlign = "right";
+		this.$stage.addChild(_fpsLabel);
+
+		// Start a ticker that will update the stage
+		createjs.Ticker.addEventListener('tick', FunctionUtilities.callWithScope(_tick, this));
+	}
+
+	/* ----- Private Methods ----- */
+	var _canvasId = 'theCanvas';
+	var _fpsLabel = null;
+
+	/* ----- Protected Variables ----- */
+	function _tick(e) {
+		if (Log.debugMode) {
+			_fpsLabel.visible = true;
+			_fpsLabel.text = Math.floor(e["delta"]) + " FPS";
+		} else {
+			_fpsLabel.visible = false;
+		}
+		this.$stage.update();
+	}
+
+	/* Return the class, ready for a new ...() */
+	return _Canvas;
+})(DOMObject, true);

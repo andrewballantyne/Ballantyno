@@ -1,81 +1,101 @@
 /**
- * Created by Andrew on 04/10/14.
+ * IndexPageNavigation extends PageNavigation
+ *  > An Index Page Implementation of the Navigation class.
  *
- * @requires FunctionUtilities (/utilities/FunctionUtilities.js)
+ * Created by Andrew on 12/10/14.
+ *
+ * @requires ClassVehicle
+ * @requires BallantynoCanvas
  * @extends PageNavigation
  */
-var IndexPageNavigation = ClassVehicle.extendClass(PageNavigation, {
-	/* ----- Public Variables ----- */
-	/* ----- Public Methods ----- */
+var IndexPageNavigation = (function (ParentClass, isAbstract) {
+	/* Setup Extend Link and Setup Class Defaults */
+	ClassVehicle.setupClassExtend(_IndexPageNavigation, ParentClass, isAbstract);
+
 	/**
-	 * Index Page Navigation DOM Casing.
-	 *
-	 * @param mainDivId - The ID of the Navigation Container interface
+	 * @constructor
+	 * Extend Constructor:
+	 *  - Checks to see if we are abstract
+	 *  - Calls parent (this passes scope through)
+	 *  - Executes our constructor code
 	 */
-	constructor : function (mainDivId) {
-		this.super.constructor.call(this, mainDivId);
+	function _IndexPageNavigation(mainDivID) {
+		/* Check Abstract-ness */
+		ClassVehicle.checkAbstract.call(this, _IndexPageNavigation);
 
-		this._logoContainer = this.__me.find('.logoContainer');
+		/* Super call */
+		ParentClass.call(this, mainDivID); // pass scope down to child class
 
-		this._options = this.__panel.find('.options');
-		this._optionList = this._options.find('.optionItem');
-
-		this._configureActionOnClicks();
-		this._configureOptionDefaults();
-	},
+		/* Our Constructor implementation */
+		_setup.call(this);
+	}
 
 	/**
+	 * @override
 	 * Hides the Index Page Navigation.
 	 */
-	hide : function () {
-		this._logoContainer.hide();
-		this.super.hide.call(this);
-	},
+	_IndexPageNavigation.prototype.hide = function () {
+		_logoContainer.hide();
+		ParentClass.prototype.hide.call(this);
+	};
 
 	/**
+	 * @override
 	 * Shows the Index Page Navigation.
 	 */
-	show : function () {
-		this.super.show.call(this);
-		this._logoContainer.show();
-	},
+	_IndexPageNavigation.prototype.show = function () {
+		ParentClass.prototype.show.call(this);
+		_logoContainer.show();
+	};
 
 	/* ----- Private Variables ----- */
-	_canvas : null,
-	_logoContainer : null,
-	_options : null,
-	_optionList : null,
-	_autoHideCheckbox : null,
+	var _canvas = null; /** @see BallantynoCanvas **/
+	var _logoContainer = null;
+	var _options = null;
+	var _optionList = null;
+	var _autoHideCheckbox = null;
 
 	/* ----- Private Methods ----- */
-	_configureActionOnClicks : function () {
+	function _setup() {
+		_logoContainer = this.$me.find('.logoContainer');
+
+		_options = this.$panel.find('.options');
+		_optionList = _options.find('.optionItem');
+
+		_configureActionOnClicks.call(this);
+		_configureOptionDefaults.call(this);
+	}
+	function _configureActionOnClicks() {
 		// Set up all the clicks to validate against the options
-		this.__actions.find('a').not('#clearScreen').on('click', FunctionUtilities.callWithScope(function (e) {
-			if (this._autoHideCheckbox.prop('checked')) {
+		this.$actions.find('a').not('#clearScreen').on('click', FunctionUtilities.callWithScope(function (e) {
+			if (_autoHideCheckbox.prop('checked')) {
 				this.hide();
 			}
 		}, this));
 
 		// Add each individual button click
-		this.__actions.find('#clearScreen').on('click', FunctionUtilities.callWithScope(function (e) {
+		this.$actions.find('#clearScreen').on('click', FunctionUtilities.callWithScope(function (e) {
 			if (TestMethodAPI.isRendered())
 				TestMethodAPI.hide();
 
-			if (this._canvas.isRendered())
-				this._canvas.hide();
+			if (_canvas != null && _canvas.isVisible())
+				_canvas.hide();
 		}, this));
-		this.__actions.find('#runTests').on('click', FunctionUtilities.callWithScope(function (e) {
+		this.$actions.find('#runTests').on('click', FunctionUtilities.callWithScope(function (e) {
 			if (TestMethodAPI.isRendered())
 				TestMethodAPI.show();
 			else
 				HeaderUtilities.include.script('test/classTests/testInit.js');
 		}, this));
-		this.__actions.find('#showLobby').on('click', FunctionUtilities.callWithScope(function (e) {
-			this._canvas = new BallantynoCanvas();
+		this.$actions.find('#showLobby').on('click', FunctionUtilities.callWithScope(function (e) {
+			_canvas = new BallantynoCanvas();
 		}, this));
-	},
-	_configureOptionDefaults : function () {
-		this._autoHideCheckbox = this._optionList.find('#autoHideCheckbox');
-		this._autoHideCheckbox.prop('checked', true);
 	}
-});
+	function _configureOptionDefaults() {
+		_autoHideCheckbox = _optionList.find('#autoHideCheckbox');
+		_autoHideCheckbox.prop('checked', true);
+	}
+
+	/* Return the class, ready for a new ...() */
+	return _IndexPageNavigation;
+})(PageNavigation, false);

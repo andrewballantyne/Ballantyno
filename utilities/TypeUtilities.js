@@ -1,13 +1,19 @@
 /**
- * Created by Andrew on 08/09/14.
+ * TypeUtilities (Singleton)
+ *  > Manages any type-related checks and settings (such as mandatory and defaulting to if undefined).
  *
- * A Stand-Alone Utility Class.
- *
- * Features:
- *  - Stronger typed functions (see TypeUtilities.is)
+ * Created by Andrew on 12/10/14.
  */
-var TypeUtilities = {
-	valid : {
+var TypeUtilities = (function () {
+	/**
+	 * @constructor
+	 * Singleton Constructor:
+	 *  - Executes our constructor code
+	 */
+	function _TypeUtilities() {
+	}
+
+	_TypeUtilities.prototype.valid = {
 		/* ----- Public Variables ----- */
 		TYPE_BOOLEAN : 'isBoolean',
 
@@ -19,9 +25,8 @@ var TypeUtilities = {
 		 * @param defaultOption - What to default to if the item is undefined
 		 * @returns - Either the item or the defaultOption (if the item is not defined)
 		 */
-		defaultTo : function (item, defaultOption) {
+			defaultTo : function (item, defaultOption) {
 			if (item === defaultOption) return item; // if it's already equal, lets just return it
-
 			return (TypeUtilities.is.defined(item)) ? item : defaultOption;
 		},
 
@@ -39,13 +44,13 @@ var TypeUtilities = {
 				}
 			}
 		}
-	},
+	};
 
 	/**
 	 * "Is what? Is equal, that's what!"
 	 * Helper methods to validate the state of variables.
 	 */
-	is : {
+	_TypeUtilities.prototype.is = {
 		/* ----- Public Variables ----- */
 		EQUAL_TO_NOT_DEFINED : [undefined],
 		EQUAL_TO_NOTHING : [null, undefined],
@@ -71,7 +76,6 @@ var TypeUtilities = {
 		equal : function (item, validateParams) {
 			// Make the validateParams parameter into an array if it's not already for easy matching
 			if (!(validateParams instanceof Array)) validateParams = [validateParams];
-
 			var equal = false;
 			for (var i = 0; i < validateParams.length; i++) {
 				if (item === validateParams[i]) {
@@ -79,7 +83,6 @@ var TypeUtilities = {
 					break;
 				}
 			}
-
 			return equal;
 		},
 
@@ -89,9 +92,13 @@ var TypeUtilities = {
 
 		anEvent : function (event) {
 			return (
-				(event instanceof Event) ||			// Regular Event
-				(event instanceof jQuery.Event)		// jQuery Event
+				event instanceof Event ||			// Regular Event
+				event instanceof jQuery.Event ||	// jQuery Event
+				event instanceof createjs.Event		// createjs Event
 			);
 		}
-	}
-};
+	};
+
+	/* Executes a new and returns the, now singleton, object */
+	return new _TypeUtilities();
+})();

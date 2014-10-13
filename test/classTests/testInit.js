@@ -13,8 +13,8 @@ Log.maxLogging();
 TestMethodAPI.init(true);
 
 /** ClassVehicle Tests **/
-HeaderUtilities.include.script('test/classTests/ClassVehicle/ClassVehicleUsage.js');
-HeaderUtilities.include.script('test/classTests/ClassVehicle/ClassVehicleHierarchy.js');
+//HeaderUtilities.include.script('test/classTests/ClassVehicle/ClassVehicleUsage.js');
+//HeaderUtilities.include.script('test/classTests/ClassVehicle/ClassVehicleHierarchy.js');
 
 /** Other Test.... **/
 

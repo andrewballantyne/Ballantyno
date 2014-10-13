@@ -1,21 +1,31 @@
 /**
- * Created by Andrew on 17/09/14.
+ * Log (Singleton)
+ *  > A Utility that will control all logging done within this project. All 'console.log's should be Log.log.
+ *
+ * Created by Andrew on 12/10/14.
  *
  * @requires ConverterUtilities (/utilities/ConverterUtilities.js)
  * @requires TypeUtilities  (/utilities/TypeUtilities.js)
  */
+var Log = (function () {
+	/**
+	 * @constructor
+	 * Singleton Constructor:
+	 *  - Executes our constructor code
+	 */
+	function _Log() {
+	}
 
-var Log = new (ClassVehicle.createClass({
 	/* ----- Public Variables ----- */
-	TYPE_ALL : "allConsolePrints",
-	TYPE_LOG : "logConsolePrints",
-	TYPE_WARN : "warnConsolePrints",
-	TYPE_ERROR : "errorConsolePrints",
+	_Log.prototype.TYPE_ALL = "allConsolePrints";
+	_Log.prototype.TYPE_LOG = "logConsolePrints";
+	_Log.prototype.TYPE_WARN = "warnConsolePrints";
+	_Log.prototype.TYPE_ERROR = "errorConsolePrints";
 
 	/**
 	 * A useful boolean to check if at any point in time it is okay to use debug-level testing/printing/coding in general.
 	 */
-	debugMode : false,
+	_Log.prototype.debugMode = true;
 
 	/* ----- Public Methods ----- */
 	/**
@@ -26,42 +36,42 @@ var Log = new (ClassVehicle.createClass({
 	 * @param listenType {string?} - Optional. The listener type Log.TYPE_ALL, TYPE_LOG, TYPE_WARN, and TYPE_ERROR are the available
 	 *  options, defaults to TYPE_ALL
 	 */
-	attachListener : function (informCallback, listenType) {
+	_Log.prototype.attachListener = function (informCallback, listenType) {
 		var type = TypeUtilities.valid.defaultTo(listenType, this.TYPE_ALL);
 
 		if (TypeUtilities.is.aFunction(informCallback)) {
-			if (this._informCallbacks[type] == null)
-				this._informCallbacks[type] = [];
-			this._informCallbacks[type].push(informCallback);
+			if (_informCallbacks[type] == null)
+				_informCallbacks[type] = [];
+			_informCallbacks[type].push(informCallback);
 		}
-	},
+	};
 
 	/**
 	 * 'Flip' logging OFF.
 	 * @see maxLogging()
 	 * @see resetLogging()
 	 */
-	noLogging : function () {
-		this._manipulationState = this._SILENCE_STATE;
-	},
+	_Log.prototype.noLogging = function () {
+		_manipulationState = _SILENCE_STATE;
+	};
 
 	/**
 	 * 'Flip' logging TO MAX.
 	 * @see noLogging()
 	 * @see resetLogging()
 	 */
-	maxLogging : function () {
-		this._manipulationState = this._THROTTLING_UP_STATE;
-	},
+	_Log.prototype.maxLogging = function () {
+		_manipulationState = _THROTTLING_UP_STATE;
+	};
 
 	/**
 	 * Disable 'Flip' State.
 	 * @see maxLogging()
 	 * @see noLogging()
 	 */
-	resetLogging : function () {
-		this._manipulationState = this._NORMAL_STATE;
-	},
+	_Log.prototype.resetLogging = function () {
+		_manipulationState = _NORMAL_STATE;
+	};
 
 	/**
 	 * Console.log(...) passed params.
@@ -70,11 +80,11 @@ var Log = new (ClassVehicle.createClass({
 	 *
 	 * @params {*} - Any number of params you wish to print
 	 */
-	log : function () {
-		if (!this._canPrint(this._HIGH_LOG_LEVEL)) return; // insufficient debug level
+	_Log.prototype.log = function () {
+		if (!_canPrint(_HIGH_LOG_LEVEL)) return; // insufficient debug level
 
-		this._console(this.TYPE_LOG, arguments);
-	},
+		_console(this.TYPE_LOG, arguments);
+	};
 
 	/**
 	 * Console.warn(...) passed params.
@@ -83,11 +93,11 @@ var Log = new (ClassVehicle.createClass({
 	 *
 	 * @params {*} - Any number of params you wish to print
 	 */
-	warn : function () {
-		if (!this._canPrint(this._MED_LOG_LEVEL)) return; // insufficient debug level
+	_Log.prototype.warn = function () {
+		if (!_canPrint(_MED_LOG_LEVEL)) return; // insufficient debug level
 
-		this._console(this.TYPE_WARN, arguments);
-	},
+		_console(this.TYPE_WARN, arguments);
+	};
 
 	/**
 	 * Console.error(...) passed params.
@@ -96,18 +106,18 @@ var Log = new (ClassVehicle.createClass({
 	 *
 	 * @params {*} - Any number of params you wish to print
 	 */
-	error : function () {
-		if (!this._canPrint(this._LOW_LOG_LEVEL)) return; // insufficient debug level
+	_Log.prototype.error = function () {
+		if (!_canPrint(_LOW_LOG_LEVEL)) return; // insufficient debug level
 
-		this._console(this.TYPE_ERROR, arguments);
-	},
+		_console(this.TYPE_ERROR, arguments);
+	};
 
 	/**
 	 * Prints out a phpReturn. Creates a DOM container if one does not already exist.
 	 *
 	 * @param responseText - The response text containing any debug/echo statements made while executing php code
 	 */
-	phpPrint : function(responseText) {
+	_Log.prototype.phpPrint = function(responseText) {
 		// TODO: Convert to new working framework
 //		var phpDebug = $('#phpDebug');
 //		if (phpDebug.length == 0) {
@@ -128,39 +138,37 @@ var Log = new (ClassVehicle.createClass({
 //
 //		// Hide the current page so only the responseText is visible
 //		$('#' + 'MainSiteContact').hide();
-	},
+	};
 
 	/* ----- Private Variables ----- */
-	_ALL_TYPES : null,
+	var _ALL_TYPES = [_Log.prototype.TYPE_ALL, _Log.prototype.TYPE_LOG, _Log.prototype.TYPE_WARN, _Log.prototype.TYPE_ERROR];
 
-	_MAX_LOG_LEVEL : 4, // All debug (errors, warnings, logs, and debugCode - sets debugMode to true)
-	_HIGH_LOG_LEVEL : 3, // Strong debug (errors, warnings, logs only)
-	_MED_LOG_LEVEL : 2, // Moderate debug (errors, warnings only)
-	_LOW_LOG_LEVEL : 1, // Soft debug (errors only)
-	_OFF_LOG_LEVEL : 0, // No debug
-	_logLevel : null,
+	var _MAX_LOG_LEVEL = 4;		// All debug (errors, warnings, logs, and debugCode - sets debugMode to true)
+	var _HIGH_LOG_LEVEL = 3;	// Strong debug (errors, warnings, logs only)
+	var _MED_LOG_LEVEL = 2;		// Moderate debug (errors, warnings only)
+	var _LOW_LOG_LEVEL = 1;		// Soft debug (errors only)
+	var _OFF_LOG_LEVEL = 0;		// No debug
+	var _logLevel = null;
 
-	_NORMAL_STATE : -1,
-	_THROTTLING_UP_STATE : -2,
-	_SILENCE_STATE : -3,
-	_manipulationState : null,
+	var _NORMAL_STATE = -1;
+	var _THROTTLING_UP_STATE = -2;
+	var _SILENCE_STATE = -3;
+	var _manipulationState = null;
 
-	_initialized : false,
-	_informCallbacks : {},
+	var _initialized = false;
+	var _informCallbacks = {};
 
 	/* ----- Private Methods ----- */
-	_init : function () {
-		this._logLevel = this._MAX_LOG_LEVEL;
-		this._manipulationState = this._NORMAL_STATE;
+	function _init() {
+		_logLevel = _MAX_LOG_LEVEL;
+		_manipulationState = _NORMAL_STATE;
 
-		this.debugMode = (this._logLevel == this._MAX_LOG_LEVEL);
+		this.debugMode = (_logLevel == _MAX_LOG_LEVEL);
 
-		this._ALL_TYPES = [this.TYPE_ALL, this.TYPE_LOG, this.TYPE_WARN, this.TYPE_ERROR];
-
-		this._initialized = true;
-	},
-	_canPrint : function (neededLogSetting) {
-		if (!this._initialized) this._init();
+		_initialized = true;
+	}
+	function _canPrint(neededLogSetting) {
+		if (!_initialized) _init();
 
 		/**
 		 * We are in Throttle Up state
@@ -168,11 +176,11 @@ var Log = new (ClassVehicle.createClass({
 		 * We have the needed log level (and we are not in silence state)
 		 */
 		return (
-			(this._manipulationState == this._THROTTLING_UP_STATE) ||
-			(this._logLevel >= neededLogSetting && this._manipulationState != this._SILENCE_STATE)
+			_manipulationState == _THROTTLING_UP_STATE ||
+			(_logLevel >= neededLogSetting && _manipulationState != _SILENCE_STATE)
 		);
-	},
-	_getMethodName : function (methodType) {
+	}
+	function _getMethodName(methodType) {
 		var methodName = 'console.';
 
 		switch (methodType) {
@@ -193,8 +201,8 @@ var Log = new (ClassVehicle.createClass({
 		}
 
 		return methodName;
-	},
-	_console : function (methodType, params) {
+	}
+	function _console(methodType, params) {
 		if (methodType == this.TYPE_ALL) throw new Error("Cannot log an 'all type'");
 
 		var consoleString = "";
@@ -205,15 +213,15 @@ var Log = new (ClassVehicle.createClass({
 				consoleString += ",";
 			}
 		}
-		
-		var methodName = this._getMethodName(methodType);
+
+		var methodName = _getMethodName(methodType);
 		eval(methodName + "(" + consoleString + ")");
 
 		// Inform any listening callbacks
-		for (i = 0; i < this._ALL_TYPES.length; i++) {
+		for (i = 0; i < _ALL_TYPES.length; i++) {
 			// Get the list of callbacks for this type
-			var type = this._ALL_TYPES[i];
-			var callbacks = this._informCallbacks[type];
+			var type = _ALL_TYPES[i];
+			var callbacks = _informCallbacks[type];
 
 			// If there are no callbacks, move on
 			if (callbacks == null) continue;
@@ -225,4 +233,7 @@ var Log = new (ClassVehicle.createClass({
 			}
 		}
 	}
-}))();
+
+	/* Executes a new and returns the, now singleton, object */
+	return new _Log();
+})();
