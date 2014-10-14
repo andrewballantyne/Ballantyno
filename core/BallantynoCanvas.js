@@ -18,7 +18,7 @@ var BallantynoCanvas = (function (ParentClass, isAbstract) {
 	function BallantynoCanvasConstructor() {
 		ParentClass.call(this); // super call
 
-		_drawTickTacToeBoard.call(this);
+		_setupLobby.call(this);
 	}
 
 	/* ----- Public Variables ----- */
@@ -32,12 +32,8 @@ var BallantynoCanvas = (function (ParentClass, isAbstract) {
 	/* ----- Private Variables ----- */
 
 	/* ----- Private Methods ----- */
-	function _drawTickTacToeBoard() {
-		var tickTacToeBoard = new TickTacToeBoard(200,200);
-		tickTacToeBoard.x = 50;
-		tickTacToeBoard.y = 50;
-
-		this.$stage.addChild(tickTacToeBoard);
+	function _setupLobby() {
+		this.$stage.addChild(new TickTacToeGame());
 	}
 
 	/**

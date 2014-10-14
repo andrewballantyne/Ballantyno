@@ -14,7 +14,7 @@ var PageNavigation = (function (isAbstract) {
 	/**
 	 * @constructor
 	 *
-	 * @param mainDivId - The main div that encompasses the entire Index Page Navigation
+	 * @param mainDivId {string} - The main div that encompasses the entire Index Page Navigation
 	 */
 	function PageNavigationConstructor(mainDivId) {
 		_setup.call(this, mainDivId);
@@ -23,10 +23,15 @@ var PageNavigation = (function (isAbstract) {
 	/* ----- Public Variables ----- */
 
 	/* ----- Protected Variables ----- */
+	/** @type jQuery */
 	_PageNavigation.prototype.$me = null;
+	/** @type jQuery */
 	_PageNavigation.prototype.$openHandle = null;
+	/** @type jQuery */
 	_PageNavigation.prototype.$panel = null;
+	/** @type jQuery */
 	_PageNavigation.prototype.$actions = null;
+	/** @type jQuery */
 	_PageNavigation.prototype.$closeHandle = null;
 
 	/* ----- Public Methods ----- */
@@ -61,6 +66,9 @@ var PageNavigation = (function (isAbstract) {
 	/* ----- Private Variables ----- */
 
 	/* ----- Private Methods ----- */
+	/**
+	 * @param mainDivId {string} - The main div that encompasses the entire Index Page Navigation
+	 */
 	function _setup(mainDivId) {
 		this.$me = $('#' + mainDivId);
 
@@ -76,6 +84,9 @@ var PageNavigation = (function (isAbstract) {
 
 		this.isVisible = true;
 	}
+	/**
+	 * @param e {jQuery.Event} - The Event
+	 */
 	function _handleClick(e) {
 		if (this.isVisible) {
 			this.hide();
@@ -83,7 +94,6 @@ var PageNavigation = (function (isAbstract) {
 			this.show();
 		}
 	}
-
 
 	/**
 	 * Entry point into class. This method will only contain needed class-level checks.

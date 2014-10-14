@@ -49,10 +49,15 @@ var IndexPageNavigation = (function (ParentClass, isAbstract) {
 	/* ----- Protected Methods ----- */
 
 	/* ----- Private Variables ----- */
-	_IndexPageNavigation.prototype._canvas = null; /** @see BallantynoCanvas **/
+	/** @type BallantynoCanvas **/
+	_IndexPageNavigation.prototype._canvas = null;
+	/** @type jQuery */
 	_IndexPageNavigation.prototype._logoContainer = null;
+	/** @type jQuery */
 	_IndexPageNavigation.prototype._options = null;
+	/** @type jQuery */
 	_IndexPageNavigation.prototype._optionList = null;
+	/** @type jQuery */
 	_IndexPageNavigation.prototype._autoHideCheckbox = null;
 
 	/* ----- Private Methods ----- */
@@ -66,14 +71,15 @@ var IndexPageNavigation = (function (ParentClass, isAbstract) {
 		_configureOptionDefaults.call(this);
 	}
 	function _configureActionOnClicks() {
-		// Set up all the clicks to validate against the options
+		/* Set up all the clicks to validate against the options */
 		this.$actions.find('a').not('#clearScreen').on('click', FunctionUtilities.callWithScope(function (e) {
 			if (this._autoHideCheckbox.prop('checked')) {
 				this.hide();
 			}
 		}, this));
 
-		// Add each individual button click
+		/* Add each individual button click */
+		// Clear button
 		this.$actions.find('#clearScreen').on('click', FunctionUtilities.callWithScope(function (e) {
 			if (TestMethodAPI.isRendered())
 				TestMethodAPI.hide();
@@ -81,14 +87,19 @@ var IndexPageNavigation = (function (ParentClass, isAbstract) {
 			if (this._canvas != null && this._canvas.isVisible())
 				this._canvas.hide();
 		}, this));
+		// Run Tests button
 		this.$actions.find('#runTests').on('click', FunctionUtilities.callWithScope(function (e) {
 			if (TestMethodAPI.isRendered())
 				TestMethodAPI.show();
 			else
 				HeaderUtilities.include.script('test/classTests/testInit.js');
 		}, this));
+		// Show Lobby button
 		this.$actions.find('#showLobby').on('click', FunctionUtilities.callWithScope(function (e) {
-			this._canvas = new BallantynoCanvas();
+			if (this._canvas == null)
+				this._canvas = new BallantynoCanvas();
+			else
+				this._canvas.show();
 		}, this));
 	}
 	function _configureOptionDefaults() {

@@ -13,16 +13,16 @@ var DOMObject = (function (isAbstract) {
 	/**
 	 * @constructor
 	 *
-	 * @param domIdOrTag {string} - The id or full tag (<div id="myId"></div>) that corresponds to the DOM element that you wish
-	 *  to encompass.
+	 * @param domTag {string} - The tag that will be created and linked to this object
 	 */
-	function DOMObjectConstructor(domIdOrTag) {
-		_setup.call(this, domIdOrTag);
+	function DOMObjectConstructor(domTag) {
+		_setup.call(this, domTag);
 	}
 
 	/* ----- Public Variables ----- */
 
 	/* ----- Protected Variables ----- */
+	/** @type jQuery **/
 	_DOMObject.prototype.$me = null;
 
 	/* ----- Public Methods ----- */
@@ -68,8 +68,11 @@ var DOMObject = (function (isAbstract) {
 	_DOMObject.prototype._rendered = false;
 
 	/* ----- Private Methods ----- */
-	function _setup(domId) {
-		this.$me = $(domId);
+	/**
+	 * @param domTag {string} - The tag that will be created and linked to this object
+	 */
+	function _setup(domTag) {
+		this.$me = $(domTag);
 
 		$(document.body).append(this.$me);
 

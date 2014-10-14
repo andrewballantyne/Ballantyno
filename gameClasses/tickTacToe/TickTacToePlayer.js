@@ -5,16 +5,22 @@
  * Created by Andrew on 13/10/14.
  *
  * @requires ClassVehicle
+ * @extends GamePlayer
  */
-var TickTacToePlayer = (function (isAbstract) {
-	/* Setup Class Defaults */
-	ClassVehicle.setupClass(_TickTacToePlayer, isAbstract);
+var TickTacToePlayer = (function (ParentClass, isAbstract) {
+	/* Setup Extend Link and Setup Class Defaults */
+	ClassVehicle.setupClassExtend(_TickTacToePlayer, ParentClass, isAbstract);
 
 	/**
 	 * @constructor
 	 *
+	 * @param name {string} - The name that associates with this player
+	 * @param color {string} - The colour this player will have
+	 * @param symbol {string} - The symbol that identifies this player (X or O)
 	 */
-	function TickTacToePlayerConstructor(symbol) {
+	function TickTacToePlayerConstructor(name, color, symbol) {
+		ParentClass.call(this, name, color);
+
 		this.symbol = symbol;
 	}
 
@@ -44,4 +50,4 @@ var TickTacToePlayer = (function (isAbstract) {
 
 	/* Return the class, ready for a new ...() */
 	return _TickTacToePlayer;
-})(false);
+})(GamePlayer, false);

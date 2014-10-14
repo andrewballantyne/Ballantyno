@@ -58,6 +58,10 @@ all the issues, but they may end up on the back burner for some time. This will 
 - Not sure why, but I can't seem to get a hitArea to work on a shape for TickTacToe. This has caused me to have to hack a small bg
   highlight that is clickable, instead of an invisible hitArea.
 
+#### GameButton - Click Doesn't Work
+
+- This appears to be the same issue as the above hitArea issue, but on a container.
+
 ## License
 
 Currently this is all private and not open for others to use, modify or fork. But I am open to suggestions if anyone does want to

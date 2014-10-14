@@ -24,6 +24,7 @@ var Canvas = (function (ParentClass, isAbstract) {
 	/* ----- Public Variables ----- */
 
 	/* ----- Protected Variables ----- */
+	/** @type createjs.Stage **/
 	_Canvas.prototype.$stage = null;
 
 	/* ----- Public Methods ----- */
@@ -31,8 +32,10 @@ var Canvas = (function (ParentClass, isAbstract) {
 	/* ----- Protected Methods ----- */
 
 	/* ----- Private Variables ----- */
-	_Canvas.prototype._canvasId = 'theCanvas';
+	/** @type createjs.Text **/
 	_Canvas.prototype._fpsLabel = null;
+
+	_Canvas.prototype._canvasId = 'theCanvas';
 
 	/* ----- Private Methods ----- */
 	function _setup() {
@@ -56,6 +59,9 @@ var Canvas = (function (ParentClass, isAbstract) {
 		// Start a ticker that will update the stage
 		createjs.Ticker.addEventListener('tick', FunctionUtilities.callWithScope(_tick, this));
 	}
+	/**
+	 * @param e [createjs.Event} - The event
+	 */
 	function _tick(e) {
 		if (Log.debugMode) {
 			this._fpsLabel.visible = true;

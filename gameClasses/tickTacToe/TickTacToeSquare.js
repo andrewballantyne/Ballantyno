@@ -13,6 +13,10 @@ var TickTacToeSquare = (function (ParentClass, isAbstract) {
 	/**
 	 * @constructor
 	 *
+	 * @param xPos {number} - The x position of this square (0 being the left side, 2 being the right side of the grid)
+	 * @param yPos {number} - The y position of this square (0 being the top, 2 being the bottom)
+	 * @param squareDimensions {Dimension} - A dimension object with the width/height of this square
+	 * @param theBoard {TickTacToeBoard} - The reference back to the board that owns this square
 	 */
 	function TickTacToeSquareConstructor(xPos, yPos, squareDimensions, theBoard) {
 		ParentClass.call(this);
@@ -26,6 +30,8 @@ var TickTacToeSquare = (function (ParentClass, isAbstract) {
 	}
 
 	/* ----- Public Variables ----- */
+	_TickTacToeSquare.prototype.checkedState = '';
+	_TickTacToeSquare.prototype.locked = false;
 
 	/* ----- Protected Variables ----- */
 
@@ -34,23 +40,26 @@ var TickTacToeSquare = (function (ParentClass, isAbstract) {
 	/* ----- Protected Methods ----- */
 
 	/* ----- Private Variables ----- */
+	_TickTacToeSquare.prototype._DEFAULT_TEXT = '';
+
+	/** @type TickTacToeBoard */
 	_TickTacToeSquare.prototype._theBoard = null;
+	/** @type Dimension */
+	_TickTacToeSquare.prototype._dimensions = null;
+	/** @type createjs.Text */
+	_TickTacToeSquare.prototype._text = null;
+
 	_TickTacToeSquare.prototype._xPos = -1;
 	_TickTacToeSquare.prototype._yPos = -1;
-	_TickTacToeSquare.prototype._dimensions = {
-		width: 0,
-		height: 0
-	};
-	_TickTacToeSquare.prototype._text = null;
 
 	/* ----- Private Methods ----- */
 	function _setupSquare() {
 		// Draw a square, so it can be clicked on
 		var bg = new createjs.Shape();
-		bg.graphics.beginFill('#fff').drawRect(0, 0, this._dimensions.width, this._dimensions.height);
+		bg.graphics.beginFill('white').drawRect(0, 0, this._dimensions.width, this._dimensions.height);
 		this.addChild(bg);
 
-		this._text = new createjs.Text('', 'Bold 60px Arial', 'Red');
+		this._text = new createjs.Text(this._DEFAULT_TEXT, 'Bold 50px Arial', 'Red');
 
 		this.addChild(this._text);
 
@@ -58,11 +67,19 @@ var TickTacToeSquare = (function (ParentClass, isAbstract) {
 		this.on('click', FunctionUtilities.callWithScope(_onClick, this));
 	}
 	function _onClick() {
+		if (this.locked) return;
+		if (this._text.text != this._DEFAULT_TEXT) return; // already have something, cannot change it again
 		var player = this._theBoard.currentPlayer();
 
 		this._text.text = player.symbol;
+		this._text.color = player.color;
 		this._text.x = this._dimensions.width / 2 - this._text.getMeasuredWidth() / 2;
-		this._text.y = this._dimensions.height / 2 - this._text.getMeasuredHeight() / 2;
+		this._text.y = this._dimensions.height / 2 - this._text.getMeasuredLineHeight() / 2;
+
+		this.checkedState = player.symbol;
+
+		// Signal a check
+		this._theBoard.checkVictor();
 	}
 
 	/**
